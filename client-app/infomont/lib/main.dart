@@ -21,6 +21,7 @@ class InfoMontApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: MainPage(title: 'Start Hiking'),
+      showSemanticsDebugger: false, // can be used to debug layout or UI issues
     );
   }
 }
@@ -44,7 +45,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  final _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>(debugLabel: 'MainForm');
   int _counter = 0;
 
   void _incrementCounter() {
@@ -100,6 +101,17 @@ class _MainPageState extends State<MainPage> {
                   TextFormField(
                     decoration: const InputDecoration(
                       hintText: 'Starting point',
+                    ),
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                      return null;
+                    },
+                  ),
+                  TextFormField(
+                    decoration: const InputDecoration(
+                      hintText: 'End point',
                     ),
                     validator: (value) {
                       if (value.isEmpty) {
