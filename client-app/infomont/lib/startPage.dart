@@ -20,8 +20,8 @@ class StartPage extends StatefulWidget {
 
 class _StartPageState extends State<StartPage> {
   final _formKey = GlobalKey<FormState>(debugLabel: 'MainForm');
-  int _counter = 0;
 
+  /*
   void _incrementCounter() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
@@ -32,6 +32,7 @@ class _StartPageState extends State<StartPage> {
       _counter++;
     });
   }
+   */
 
   @override
   Widget build(BuildContext context) {
