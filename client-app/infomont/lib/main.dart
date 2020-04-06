@@ -44,6 +44,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  final _formKey = GlobalKey<FormState>();
   int _counter = 0;
 
   void _incrementCounter() {
@@ -91,8 +92,37 @@ class _MainPageState extends State<MainPage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
+            Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  TextFormField(
+                    decoration: const InputDecoration(
+                      hintText: 'Starting point',
+                    ),
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                      return null;
+                    },
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    child: RaisedButton(
+                      onPressed: () {
+                        // Validate will return true if the form is valid, or false if
+                        // the form is invalid.
+                        if (_formKey.currentState.validate()) {
+                          // Process data.
+                        }
+                      },
+                      child: Text('Submit'),
+                    ),
+                  ),
+                ],
+              ),
             ),
             Text(
               '$_counter',

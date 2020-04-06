@@ -11,6 +11,16 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:app/main.dart';
 
 void main() {
+  testWidgets('Finds one Input Field', (WidgetTester tester) async {
+    // Build our app and trigger a frame.
+    await tester.pumpWidget(InfoMontApp());
+
+    // Verify that there is one TextFormField.
+    expect(find.byType(TextFormField), findsOneWidget);
+    // Verify that there is one "Starting point" sting.
+    expect(find.text('Starting point'), findsOneWidget);
+  });
+
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
     await tester.pumpWidget(InfoMontApp());
