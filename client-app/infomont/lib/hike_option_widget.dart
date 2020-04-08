@@ -8,6 +8,7 @@ class HikeOptionWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(child: Column(children: <Widget>[
+      Text('Breaza - Peaks Brezei - Chalet Urlea' ' | ' 'Show map'),
       Text('Duration: ' '3h 30min'),
       Text('Mark: ' 'Red Triangle'),
       Text('Mark quality: ' 'good'),
