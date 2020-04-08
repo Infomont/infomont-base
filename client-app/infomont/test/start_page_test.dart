@@ -8,19 +8,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:app/main.dart';
+import 'package:app/startPage.dart';
+
+// TODO: extract to helper file
+Widget buildTestableWidget(Widget widget) {
+  return MediaQuery(data: MediaQueryData(), child: MaterialApp(home: widget));
+}
 
 void main() {
   testWidgets('Finds StartingPoint Input Field', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(InfoMontApp());
+    await tester.pumpWidget(buildTestableWidget(StartPage(title: '')));
 
     expect(find.widgetWithText(TextFormField, 'Starting point'), findsOneWidget, reason: 'There is one TextFormField with "Starting point" text');
   });
 
   testWidgets('Finds EndPoint Input Field', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(InfoMontApp());
+    await tester.pumpWidget(buildTestableWidget(StartPage(title: '')));
 
     expect(find.widgetWithText(TextFormField, 'End point'), findsOneWidget, reason: 'There is one TextFormField with "End point" text');
   });
