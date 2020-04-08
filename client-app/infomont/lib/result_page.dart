@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'hike_option_widget.dart';
+
 class ResultPage extends StatefulWidget {
   ResultPage({Key key, this.title}) : super(key: key);
 
@@ -50,16 +52,13 @@ class _ResultPageState extends State<ResultPage> {
               key: _formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+
                 children: <Widget>[
-                  Text(
-                    'Route 1: Test',
-                  ),
-                  Text(
-                    'Route 2: Test',
-                  ),
-                  Text(
-                    'Route 3: Test'
-                  ),
+                  Text('Results for: ' 'Breaza - Chalet Urlea'),
+                  Text( ''),
+                  HikeOptionWidget(),
+                  HikeOptionWidget(),
+                  HikeOptionWidget(),
                 ],
               ),
             ),
@@ -69,3 +68,4 @@ class _ResultPageState extends State<ResultPage> {
     );
   }
 }
+
