@@ -102,7 +102,8 @@ class _StartPageState extends State<StartPage> {
                         // Validate will return true if the form is valid, or false if
                         // the form is invalid.
                         if (_formKey.currentState.validate()) {
-                          // Process data.
+                          // TODO: Process data.
+                          Navigator.pushNamed(context, '/result');
                         }
                       },
                       child: Text('Submit'),

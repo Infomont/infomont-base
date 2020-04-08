@@ -12,7 +12,7 @@ Widget buildTestableWidget(Widget widget) {
 void main() {
   testWidgets('Displays 3 different route options', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(buildTestableWidget(ResultPage( title: 'Results:')));
+    await tester.pumpWidget(buildTestableWidget(ResultPage( title: '')));
 
     expect(find.text('Route 1: Test'), findsOneWidget);
     expect(find.text('Route 2: Test'), findsOneWidget);

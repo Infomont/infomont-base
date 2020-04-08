@@ -1,3 +1,4 @@
+import 'package:app/result_page.dart';
 import 'package:flutter/material.dart';
 
 import 'startPage.dart';
@@ -22,8 +23,17 @@ class InfoMontApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: StartPage(title: 'Start Hiking'),
+      //home: StartPage(title: 'Start Hiking'),
       showSemanticsDebugger: false, // can be used to debug layout or UI issues
+      // Start the app with the "/" named route. In this case, the app starts
+      // on the FirstScreen widget.
+      initialRoute: '/',
+      routes: {
+        // When navigating to the "/" route, build the StartPage widget.
+        '/': (context) => StartPage(title: 'Start Hiking'),
+        // When navigating to the "/result" route, build the ResultPage widget.
+        '/result': (context) => ResultPage(title: 'Results'),
+      },
     );
   }
 }

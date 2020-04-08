@@ -58,20 +58,7 @@ class _ResultPageState extends State<ResultPage> {
                     'Route 2: Test',
                   ),
                   Text(
-                    'Route 3: Test',
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16.0),
-                    child: RaisedButton(
-                      onPressed: () {
-                        // Validate will return true if the form is valid, or false if
-                        // the form is invalid.
-                        if (_formKey.currentState.validate()) {
-                          // Process data.
-                        }
-                      },
-                      child: Text('Submit'),
-                    ),
+                    'Route 3: Test'
                   ),
                 ],
               ),
