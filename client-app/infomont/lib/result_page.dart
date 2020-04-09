@@ -1,4 +1,8 @@
+import 'dart:convert';
+
+import 'package:app/hike_option.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 import 'hike_option_widget.dart';
 
@@ -14,6 +18,18 @@ class ResultPage extends StatefulWidget {
 class _ResultPageState extends State<ResultPage> {
   final _formKey = GlobalKey<FormState>(debugLabel: 'MainForm');
 
+  Future<List<HikeOption>> fetchHikeOptions(http.Client client) async {
+    final response =
+        await client.get('https://jsonbox.io/box_2986699eb9002888887e');
+    // Use the compute function to run parsePhotos in a separate isolate.
+    return parseHikeOptions(response.body);
+  }
+
+  List<HikeOption> parseHikeOptions(String responseBody) {
+    final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
+    return parsed.map<HikeOption>((json) => HikeOption.fromJson(json)).toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -28,47 +44,48 @@ class _ResultPageState extends State<ResultPage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
+      body: Form(
+        key: _formKey,
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text('Results for: ' 'Breaza - Chalet Urlea'),
-                  ButtonBar(children: <Widget>[
-                    FlatButton(
-                      child: Text('Show map'),
-                      onPressed: () {},
-                    ),
-                  ]),
-                  HikeOptionWidget(),
-                  HikeOptionWidget(),
-                  HikeOptionWidget(),
-                ],
+            Text('Results for: '
+                'Breaza - Chalet Urlea'), // TODO: replace with content from web API
+            ButtonBar(children: <Widget>[
+              FlatButton(
+                child: Text('Show map'),
+                onPressed: () {},
               ),
-            ),
+            ]),
+            FutureBuilder<List<HikeOption>>(
+                future: fetchHikeOptions(http.Client()),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) print(snapshot.error);
+
+                  return snapshot.hasData
+                      ? Expanded(
+                          child: HikeOptionsList(hikeOptions: snapshot.data))
+                      : Center(child: CircularProgressIndicator());
+                }),
           ],
         ),
       ),
+    );
+  }
+}
+
+class HikeOptionsList extends StatelessWidget {
+  final List<HikeOption> hikeOptions;
+
+  HikeOptionsList({Key key, this.hikeOptions}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: hikeOptions.length,
+      itemBuilder: (context, index) {
+        return HikeOptionWidget(hikeOptions[index]);
+      },
     );
   }
 }

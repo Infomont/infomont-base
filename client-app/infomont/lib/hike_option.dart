@@ -6,18 +6,21 @@ class HikeOption {
   final marksQuality;
   final difficulty;
 
-  HikeOption(this.optionName,
+  HikeOption(
+      {this.optionName,
       this.duration,
       this.shortDescription,
       this.marks,
       this.marksQuality,
-      this.difficulty);
+      this.difficulty});
 
-  HikeOption.fromJson(Map<String, dynamic> json)
-      : optionName = json['optionName'],
-        duration = json['duration'],
-        shortDescription = json['shortDescription'],
-        marks = json['marks'],
-        marksQuality = json['marksQuality'],
-        difficulty = json['difficulty'];
+  factory HikeOption.fromJson(Map<String, dynamic> json) {
+    return HikeOption(
+        optionName: json['optionName'] as String,
+        duration: json['duration'] as String,
+        shortDescription: json['shortDescription'] as String,
+        marks: json['marks'] as String,
+        marksQuality: json['marksQuality'] as String,
+        difficulty: json['difficulty'] as String);
+  }
 }
