@@ -55,7 +55,7 @@ class _ResultPageState extends State<ResultPage> {
                 children: <Widget>[
                   Text('Results for: ' 'Breaza - Chalet Urlea'),
                   ButtonBar(children: <Widget>[
-                    FlatButton(child: Text('Show map')),
+                    FlatButton(child: Text('Show map'), onPressed: () {},),
                   ]),
                   HikeOptionWidget(),
                   HikeOptionWidget(),
