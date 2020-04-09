@@ -20,9 +20,8 @@ class HikeOption {
   final marksQuality;
   final difficulty;
 
-  HikeOption() :
-    this.fromJson(jsonDecode(tmpJson));
-  
+  HikeOption() : this.fromJson(jsonDecode(tmpJson));
+
   HikeOption.fromJson(Map<String, dynamic> json)
       : optionName = json['optionName'],
         duration = json['duration'],
