@@ -22,16 +22,16 @@ class HikeOptionWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
-              Container(child: Text('Description: $hikeOption.shortDescription')),
+              Container(child: Text('Description: ${hikeOption.shortDescription}')),
               Text(
-                'Marks: $hikeOption.marks',
+                'Marks: ${hikeOption.marks}',
                 style: const TextStyle(
                   fontSize: 12.0,
                   color: Colors.black87,
                 ),
               ),
               Text(
-                'Marks quality: $hikeOption.marksQuality · Difficulty: $hikeOption.difficulty',
+                'Marks quality: ${hikeOption.marksQuality} · Difficulty: ${hikeOption.difficulty}',
                 style: const TextStyle(
                   fontSize: 12.0,
                   color: Colors.black54,
