@@ -1,18 +1,4 @@
-import 'dart:convert';
-
 class HikeOption {
-  // language=JSON
-  static const tmpJson = '''
-{
-  "optionName": "Breaza - Peaks Brezei - Chalet Urlea",
-  "duration": "3h 30min",
-  "shortDescription": " From Breaza, from the final station of the bus, the marks with blue triangle lead us to the point called \\\"Pe Livadia\\\" (\\\"At the orchard\\\"), where there is a orchard nursery. Here there is a pole with indicating plates. ",
-  "marks": "Red Triangle",
-  "marksQuality": "★★★★☆",
-  "difficulty": "★☆☆☆☆"
-}
-''';
-
   final optionName;
   final duration;
   final shortDescription;
@@ -20,7 +6,12 @@ class HikeOption {
   final marksQuality;
   final difficulty;
 
-  HikeOption() : this.fromJson(jsonDecode(tmpJson));
+  HikeOption(this.optionName,
+      this.duration,
+      this.shortDescription,
+      this.marks,
+      this.marksQuality,
+      this.difficulty);
 
   HikeOption.fromJson(Map<String, dynamic> json)
       : optionName = json['optionName'],
