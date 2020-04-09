@@ -52,7 +52,6 @@ class _ResultPageState extends State<ResultPage> {
               key: _formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-
                 children: <Widget>[
                   Text('Results for: ' 'Breaza - Chalet Urlea'),
                   ButtonBar(children: <Widget>[
@@ -70,4 +69,3 @@ class _ResultPageState extends State<ResultPage> {
     );
   }
 }
-

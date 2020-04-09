@@ -20,13 +20,15 @@ void main() {
     // Build our app and trigger a frame.
     await tester.pumpWidget(buildTestableWidget(StartPage(title: '')));
 
-    expect(find.widgetWithText(TextFormField, 'Starting point'), findsOneWidget, reason: 'There is one TextFormField with "Starting point" text');
+    expect(find.widgetWithText(TextFormField, 'Starting point'), findsOneWidget,
+        reason: 'There is one TextFormField with "Starting point" text');
   });
 
   testWidgets('Finds EndPoint Input Field', (WidgetTester tester) async {
     // Build our app and trigger a frame.
     await tester.pumpWidget(buildTestableWidget(StartPage(title: '')));
 
-    expect(find.widgetWithText(TextFormField, 'End point'), findsOneWidget, reason: 'There is one TextFormField with "End point" text');
+    expect(find.widgetWithText(TextFormField, 'End point'), findsOneWidget,
+        reason: 'There is one TextFormField with "End point" text');
   });
 }

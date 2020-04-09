@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -10,9 +9,10 @@ Widget buildTestableWidget(Widget widget) {
 }
 
 void main() {
-  testWidgets('Displays 3 different route options', (WidgetTester tester) async {
+  testWidgets('Displays 3 different route options',
+      (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(buildTestableWidget(ResultPage( title: '')));
+    await tester.pumpWidget(buildTestableWidget(ResultPage(title: '')));
 
     expect(find.text('Route 1: Test'), findsOneWidget);
     expect(find.text('Route 2: Test'), findsOneWidget);

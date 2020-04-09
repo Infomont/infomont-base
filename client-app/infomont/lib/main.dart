@@ -37,5 +37,3 @@ class InfoMontApp extends StatelessWidget {
     );
   }
 }
-
-
