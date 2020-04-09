@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'hike_option.dart';
 
 class HikeOptionWidget extends StatelessWidget {
-  final hikeOption = HikeOption();
+  final hikeOption = HikeOption('');
 
   HikeOptionWidget({
     Key key,
