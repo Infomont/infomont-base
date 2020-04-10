@@ -47,7 +47,8 @@ void main() {
 }
 
 class HikeOptionProviderStub extends HikeOptionProvider {
-  HikeOptionProviderStub(this.hikeOptions, JsonAdapter jsonAdapter) : super(jsonAdapter);
+  HikeOptionProviderStub(this.hikeOptions, JsonAdapter jsonAdapter)
+      : super(jsonAdapter);
   final List<HikeOption> hikeOptions;
 
   @override

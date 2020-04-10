@@ -1,6 +1,6 @@
 import 'package:app/json_adapter.dart';
 
-class JsonAdapterStub extends JsonAdapter{
+class JsonAdapterStub extends JsonAdapter {
   JsonAdapterStub();
 
   String _json;
@@ -11,9 +11,6 @@ class JsonAdapterStub extends JsonAdapter{
 
   @override
   Future<String> fetchJson() async {
-
     return _json;
   }
-
-
 }

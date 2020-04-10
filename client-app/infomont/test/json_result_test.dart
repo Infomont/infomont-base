@@ -45,12 +45,12 @@ void main() {
     final provider = HikeOptionProvider(jsonAdapterStub);
     var actual = await provider.fetchHikeOptions();
 
-
     var result = List<HikeOption>();
     result.add(HikeOption(optionName: route1Text));
     result.add(HikeOption(optionName: route2Text));
     result.add(HikeOption(optionName: route3Text));
 
-    expect(result, actual); // keep in mind we are only comparing the optionName field for now
+    expect(result,
+        actual); // keep in mind we are only comparing the optionName field for now
   });
 }

@@ -16,6 +16,8 @@ class HikeOptionProvider {
 
   Future<List<HikeOption>> parseHikeOptions(String responseBody) async {
     final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
-    return parsed.map<HikeOption>((element) => HikeOption.fromJson(element)).toList();
+    return parsed
+        .map<HikeOption>((element) => HikeOption.fromJson(element))
+        .toList();
   }
 }
