@@ -29,7 +29,7 @@ class HikeOption {
       identical(this, other) ||
           other is HikeOption &&
               runtimeType == other.runtimeType &&
-              marks == other.marks;
+              optionName == other.optionName;
 
   @override
   int get hashCode => marks.hashCode;

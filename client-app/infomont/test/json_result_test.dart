@@ -1,15 +1,10 @@
-
-// language=JSON
-import 'dart:convert';
+import 'package:flutter_test/flutter_test.dart';
 
 import 'package:app/hike_option.dart';
 import 'package:app/hike_option_provider.dart';
-import 'package:app/json_adapter.dart';
-
-import 'package:flutter_test/flutter_test.dart';
-
 import 'json_adapter_stub.dart';
 
+// language=JSON
 const tmpJson = '''
 [
 {
@@ -56,7 +51,6 @@ void main() {
     result.add(HikeOption(optionName: route2Text));
     result.add(HikeOption(optionName: route3Text));
 
-    //expect(result[0], actual[0]);
-    expect(result[0].difficulty, actual[0].difficulty);
+    expect(result, actual); // keep in mind we are only comparing the optionName field for now
   });
 }
