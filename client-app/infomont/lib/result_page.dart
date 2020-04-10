@@ -1,34 +1,25 @@
-import 'dart:convert';
-
 import 'package:app/hike_option.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import 'hike_option_provider.dart';
 import 'hike_option_widget.dart';
 
 class ResultPage extends StatefulWidget {
-  ResultPage({Key key, this.title}) : super(key: key);
+  ResultPage({this.hikeOptionProvider, Key key, this.title}) : super(key: key);
 
   final String title;
+  final HikeOptionProvider hikeOptionProvider;
 
   @override
-  _ResultPageState createState() => _ResultPageState();
+  _ResultPageState createState() => _ResultPageState(this.hikeOptionProvider);
 }
 
 class _ResultPageState extends State<ResultPage> {
+  _ResultPageState(this.hikeOptionProvider) : super();
+
   final _formKey = GlobalKey<FormState>(debugLabel: 'MainForm');
-
-  Future<List<HikeOption>> fetchHikeOptions(http.Client client) async {
-    final response =
-        await client.get('https://jsonbox.io/box_2986699eb9002888887e');
-    // Use the compute function to run parsePhotos in a separate isolate.
-    return parseHikeOptions(response.body);
-  }
-
-  List<HikeOption> parseHikeOptions(String responseBody) {
-    final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
-    return parsed.map<HikeOption>((json) => HikeOption.fromJson(json)).toList();
-  }
+  final HikeOptionProvider hikeOptionProvider;
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +49,7 @@ class _ResultPageState extends State<ResultPage> {
               ),
             ]),
             FutureBuilder<List<HikeOption>>(
-                future: fetchHikeOptions(http.Client()),
+                future: hikeOptionProvider.fetchHikeOptions(),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) print(snapshot.error);
 

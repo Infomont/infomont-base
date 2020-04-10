@@ -1,3 +1,8 @@
+import 'dart:async';
+
+import 'package:app/hike_option.dart';
+import 'package:app/hike_option_provider.dart';
+import 'package:app/hike_option_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -9,13 +14,44 @@ Widget buildTestableWidget(Widget widget) {
 }
 
 void main() {
+  testWidgets('Displays progress indicator before showing results',
+      (WidgetTester tester) async {
+    var hikeOptionProvider = HikeOptionProvider();
+    await tester.pumpWidget(buildTestableWidget(ResultPage(
+        hikeOptionProvider: hikeOptionProvider,
+        title: 'Not interesting - Results Page Title')));
+
+    final progressIndicatorFinder = find.byType(CircularProgressIndicator);
+    expect(progressIndicatorFinder, findsOneWidget);
+  });
+
   testWidgets('Displays 3 different route options',
       (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(buildTestableWidget(ResultPage(title: '')));
+    final route1Text = 'Route 1: Test';
+    final route2Text = 'Route 2: Test';
+    final route3Text = 'Route 3: Test';
+    var result = List<HikeOption>();
+    result.add(HikeOption(optionName: route1Text));
+    result.add(HikeOption(optionName: route2Text));
+    result.add(HikeOption(optionName: route3Text));
+    var hikeOptionProvider = HikeOptionProviderStub(result);
+    await tester.pumpWidget(buildTestableWidget(ResultPage(
+        hikeOptionProvider: hikeOptionProvider,
+        title: 'Not interesting - Results Page Title')));
+    await tester.pumpAndSettle();
 
-    expect(find.text('Route 1: Test'), findsOneWidget);
-    expect(find.text('Route 2: Test'), findsOneWidget);
-    expect(find.text('Route 3: Test'), findsOneWidget);
+    expect(find.text(route1Text), findsOneWidget);
+    expect(find.text(route2Text), findsOneWidget);
+    expect(find.text(route3Text), findsOneWidget);
   });
+}
+
+class HikeOptionProviderStub extends HikeOptionProvider {
+  HikeOptionProviderStub(this.hikeOptions);
+  final List<HikeOption> hikeOptions;
+
+  @override
+  Future<List<HikeOption>> fetchHikeOptions() async {
+    return this.hikeOptions;
+  }
 }
