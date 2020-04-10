@@ -1,0 +1,18 @@
+Sqlite - local database                     HikeService
+        |                                       |
+Decider: local data                         Decider: remote data
+        |                                       |
+Supply json data (DB responsibility)      Serialize data to json
+                                                |
+                                           Deserialize json file
+                                                |
+Use json string                            Use json string
+
+                                    |
+                                json file
+                                    |
+                                HikeOptionProvider
+                                    |
+                                ResultsPage
+                                    |
+                                HikeOptionWidget

@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:app/hike_option.dart';
 import 'package:app/hike_option_provider.dart';
-import 'package:app/hike_option_widget.dart';
+import 'package:app/json_adapter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -16,7 +16,7 @@ Widget buildTestableWidget(Widget widget) {
 void main() {
   testWidgets('Displays progress indicator before showing results',
       (WidgetTester tester) async {
-    var hikeOptionProvider = HikeOptionProvider();
+    var hikeOptionProvider = HikeOptionProvider(JsonAdapter());
     await tester.pumpWidget(buildTestableWidget(ResultPage(
         hikeOptionProvider: hikeOptionProvider,
         title: 'Not interesting - Results Page Title')));
@@ -34,7 +34,7 @@ void main() {
     result.add(HikeOption(optionName: route1Text));
     result.add(HikeOption(optionName: route2Text));
     result.add(HikeOption(optionName: route3Text));
-    var hikeOptionProvider = HikeOptionProviderStub(result);
+    var hikeOptionProvider = HikeOptionProviderStub(result, JsonAdapter());
     await tester.pumpWidget(buildTestableWidget(ResultPage(
         hikeOptionProvider: hikeOptionProvider,
         title: 'Not interesting - Results Page Title')));
@@ -47,7 +47,8 @@ void main() {
 }
 
 class HikeOptionProviderStub extends HikeOptionProvider {
-  HikeOptionProviderStub(this.hikeOptions);
+  HikeOptionProviderStub(this.hikeOptions, JsonAdapter jsonAdapter)
+      : super(jsonAdapter);
   final List<HikeOption> hikeOptions;
 
   @override

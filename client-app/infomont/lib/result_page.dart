@@ -1,6 +1,5 @@
 import 'package:app/hike_option.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 import 'hike_option_provider.dart';
 import 'hike_option_widget.dart';

@@ -1,20 +1,23 @@
 import 'dart:convert';
 
-import 'package:app/hike_option.dart';
-import 'package:http/http.dart' as http;
+import 'hike_option.dart';
+import 'json_adapter.dart';
 
 class HikeOptionProvider {
-  const HikeOptionProvider();
+  final JsonAdapter jsonAdapter;
+
+  const HikeOptionProvider(this.jsonAdapter);
 
   Future<List<HikeOption>> fetchHikeOptions() async {
-    final response =
-        await http.Client().get('https://jsonbox.io/box_2986699eb9002888887e');
+    final json = await jsonAdapter.fetchJson();
     // Use the compute function to run parsePhotos in a separate isolate.
-    return parseHikeOptions(response.body);
+    return parseHikeOptions(json);
   }
 
-  List<HikeOption> parseHikeOptions(String responseBody) {
+  Future<List<HikeOption>> parseHikeOptions(String responseBody) async {
     final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
-    return parsed.map<HikeOption>((json) => HikeOption.fromJson(json)).toList();
+    return parsed
+        .map<HikeOption>((element) => HikeOption.fromJson(element))
+        .toList();
   }
 }

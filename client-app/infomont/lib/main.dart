@@ -1,3 +1,4 @@
+import 'package:app/json_adapter.dart';
 import 'package:app/result_page.dart';
 import 'package:flutter/material.dart';
 
@@ -34,7 +35,8 @@ class InfoMontApp extends StatelessWidget {
         '/': (context) => StartPage(title: 'Start Hiking'),
         // When navigating to the "/result" route, build the ResultPage widget.
         '/result': (context) => ResultPage(
-            hikeOptionProvider: HikeOptionProvider(), title: 'Results'),
+            hikeOptionProvider: HikeOptionProvider(JsonAdapter()),
+            title: 'Results'),
       },
     );
   }

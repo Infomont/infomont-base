@@ -23,4 +23,14 @@ class HikeOption {
         marksQuality: json['marksQuality'] as String,
         difficulty: json['difficulty'] as String);
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is HikeOption &&
+          runtimeType == other.runtimeType &&
+          optionName == other.optionName;
+
+  @override
+  int get hashCode => marks.hashCode;
 }
