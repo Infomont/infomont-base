@@ -1,7 +1,7 @@
 import 'package:app/result_page.dart';
 import 'package:flutter/material.dart';
 
-import 'startPage.dart';
+import 'start_page.dart';
 
 void main() => runApp(InfoMontApp());
 
