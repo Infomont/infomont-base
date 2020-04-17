@@ -25,7 +25,7 @@ class HikeOption {
   }
 
   @override
-  bool operator ==(Object other) =>
+  bool operator ==(Object other) => // TODO: a deep equals would be cleaner...
       identical(this, other) ||
       other is HikeOption &&
           runtimeType == other.runtimeType &&

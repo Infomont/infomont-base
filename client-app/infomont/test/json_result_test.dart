@@ -51,6 +51,6 @@ void main() {
     result.add(HikeOption(optionName: route3Text));
 
     expect(result,
-        actual); // keep in mind we are only comparing the optionName field for now
+        actual); // TODO: only assert optionNames, instead of relying on the current implementation of HikeOption.==
   });
 }
