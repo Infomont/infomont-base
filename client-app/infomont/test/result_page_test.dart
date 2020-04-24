@@ -52,7 +52,7 @@ class HikeOptionProviderStub extends HikeOptionJsonProvider {
   final List<HikeOption> hikeOptions;
 
   @override
-  Future<List<HikeOption>> fetchHikeOptions() async {
+  Future<List<HikeOption>> fetchHikeOptions(String departurePoint, String destinationPoint) async {
     return this.hikeOptions;
   }
 }

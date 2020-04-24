@@ -43,7 +43,7 @@ void main() {
     var jsonAdapterStub = JsonAdapterStub();
     jsonAdapterStub.json = tmpJson;
     final provider = HikeOptionJsonProvider(jsonAdapterStub);
-    var actual = await provider.fetchHikeOptions();
+    var actual = await provider.fetchHikeOptions('I dont care - start point', 'I dont care - destination point');
 
     var result = List<HikeOption>();
     result.add(HikeOption(optionName: route1Text));

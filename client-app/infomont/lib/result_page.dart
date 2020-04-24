@@ -48,7 +48,7 @@ class _ResultPageState extends State<ResultPage> {
               ),
             ]),
             FutureBuilder<List<HikeOption>>(
-                future: hikeOptionProvider.fetchHikeOptions(),
+                future: hikeOptionProvider.fetchHikeOptions('Complex turistic Sambata', 'Fereastra Mare a Sambetei'),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) print(snapshot.error);
 

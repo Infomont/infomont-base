@@ -4,7 +4,7 @@ import 'package:app/hike_option_provider.dart';
 import 'hike_option.dart';
 
 class HikeOptionDbProvider extends HikeOptionProvider {
-  Future<List<HikeOption>> fetchHikeOptions() async {
-    return DBProvider.db.getHikeOptions();
+  Future<List<HikeOption>> fetchHikeOptions(String departurePoint, String destinationPoint) async {
+    return DBProvider.db.getHikeOptions(departurePoint, destinationPoint);
   }
 }

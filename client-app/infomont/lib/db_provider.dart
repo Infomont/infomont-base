@@ -56,7 +56,7 @@ class DBProvider {
     return _database;
   }
 
-  Future<List<HikeOption>> getHikeOptions() async {
+  Future<List<HikeOption>> getHikeOptions(String departurePoint, String destinationPoint) async {
     final db = await database;
 
    final queryString = '''
@@ -75,13 +75,13 @@ class DBProvider {
       Select IDPortion from Cache_Trek_Portions
       Where CacheTrekID in (
       Select ID from Cache_Trek 
-      Where IDDepPoint = (Select ID from Point where name like ?)
-      And IDDestPoint = (Select ID from Point where name like ?))
+      Where IDDepPoint = (Select ID from Point where name like '$departurePoint')
+      And IDDestPoint = (Select ID from Point where name like '$destinationPoint'))
       Order By CacheTrekID, PortionOrder
       )
     ''';
 
-    var result = await db.rawQuery(queryString, ['Complex turistic Sambata', 'Fereastra Mare a Sambetei']);
+    var result = await db.rawQuery(queryString);
     return result.isNotEmpty ? result.map((o) => HikeOption.fromDatabase(o)).toList() : [];
   }
 }

@@ -9,7 +9,7 @@ class HikeOptionJsonProvider implements HikeOptionProvider {
 
   const HikeOptionJsonProvider(this.jsonAdapter);
 
-  Future<List<HikeOption>> fetchHikeOptions() async {
+  Future<List<HikeOption>> fetchHikeOptions(String departurePoint, String destinationPoint) async {
     final json = await jsonAdapter.fetchJson();
     // Use the compute function to run parsePhotos in a separate isolate.
     return parseHikeOptions(json);
