@@ -2,7 +2,7 @@ import 'package:app/json_adapter.dart';
 import 'package:app/result_page.dart';
 import 'package:flutter/material.dart';
 
-import 'hike_option_provider.dart';
+import 'hike_option_json_provider.dart';
 import 'start_page.dart';
 
 void main() => runApp(InfoMontApp());
@@ -36,6 +36,7 @@ class InfoMontApp extends StatelessWidget {
         // When navigating to the "/result" route, build the ResultPage widget.
         '/result': (context) => ResultPage(
             hikeOptionProvider: HikeOptionJsonProvider(JsonAdapter()),
+            //hikeOptionProvider: HikeOptionDbProvider(),
             title: 'Results'),
       },
     );

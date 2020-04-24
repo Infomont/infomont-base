@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:app/hike_option.dart';
-import 'package:app/hike_option_provider.dart';
+import 'package:app/hike_option_json_provider.dart';
 import 'package:app/json_adapter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
