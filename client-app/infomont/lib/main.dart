@@ -35,7 +35,7 @@ class InfoMontApp extends StatelessWidget {
         '/': (context) => StartPage(title: 'Start Hiking'),
         // When navigating to the "/result" route, build the ResultPage widget.
         '/result': (context) => ResultPage(
-            hikeOptionProvider: HikeOptionProvider(JsonAdapter()),
+            hikeOptionProvider: HikeOptionJsonProvider(JsonAdapter()),
             title: 'Results'),
       },
     );

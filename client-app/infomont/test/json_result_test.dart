@@ -42,7 +42,7 @@ void main() {
   test('Processes correctly the hike options from the data provider', () async { // TODO, check if needs to be async
     var jsonAdapterStub = JsonAdapterStub();
     jsonAdapterStub.json = tmpJson;
-    final provider = HikeOptionProvider(jsonAdapterStub);
+    final provider = HikeOptionJsonProvider(jsonAdapterStub);
     var actual = await provider.fetchHikeOptions();
 
     var result = List<HikeOption>();

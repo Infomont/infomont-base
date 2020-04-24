@@ -8,7 +8,7 @@ class ResultPage extends StatefulWidget {
   ResultPage({this.hikeOptionProvider, Key key, this.title}) : super(key: key);
 
   final String title;
-  final HikeOptionProvider hikeOptionProvider;
+  final HikeOptionJsonProvider hikeOptionProvider;
 
   @override
   _ResultPageState createState() => _ResultPageState(this.hikeOptionProvider);
@@ -18,7 +18,7 @@ class _ResultPageState extends State<ResultPage> {
   _ResultPageState(this.hikeOptionProvider) : super();
 
   final _formKey = GlobalKey<FormState>(debugLabel: 'MainForm');
-  final HikeOptionProvider hikeOptionProvider;
+  final HikeOptionJsonProvider hikeOptionProvider;
 
   @override
   Widget build(BuildContext context) {

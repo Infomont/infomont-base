@@ -16,7 +16,7 @@ Widget buildTestableWidget(Widget widget) {
 void main() {
   testWidgets('Displays progress indicator before showing results',
       (WidgetTester tester) async {
-    var hikeOptionProvider = HikeOptionProvider(JsonAdapter());
+    var hikeOptionProvider = HikeOptionJsonProvider(JsonAdapter());
     await tester.pumpWidget(buildTestableWidget(ResultPage(
         hikeOptionProvider: hikeOptionProvider,
         title: 'Not interesting - Results Page Title')));
@@ -46,7 +46,7 @@ void main() {
   });
 }
 
-class HikeOptionProviderStub extends HikeOptionProvider {
+class HikeOptionProviderStub extends HikeOptionJsonProvider {
   HikeOptionProviderStub(this.hikeOptions, JsonAdapter jsonAdapter)
       : super(jsonAdapter);
   final List<HikeOption> hikeOptions;

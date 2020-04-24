@@ -3,10 +3,10 @@ import 'dart:convert';
 import 'hike_option.dart';
 import 'json_adapter.dart';
 
-class HikeOptionProvider {
+class HikeOptionJsonProvider {
   final JsonAdapter jsonAdapter;
 
-  const HikeOptionProvider(this.jsonAdapter);
+  const HikeOptionJsonProvider(this.jsonAdapter);
 
   Future<List<HikeOption>> fetchHikeOptions() async {
     final json = await jsonAdapter.fetchJson();
