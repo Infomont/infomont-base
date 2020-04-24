@@ -34,7 +34,7 @@ class HikeOptionWidget extends StatelessWidget {
                 ),
               ),
               Text(
-                'Marks quality: ${hikeOption.marksQuality} · Difficulty: ${hikeOption.difficulty}',
+                'Marks quality: ${hikeOption.marksQuality}',
                 style: const TextStyle(
                   fontSize: 12.0,
                   color: Colors.black54,

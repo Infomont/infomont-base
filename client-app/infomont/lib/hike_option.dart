@@ -4,7 +4,8 @@ class HikeOption {
   final shortDescription;
   final marks;
   final marksQuality;
-  final difficulty;
+  final startPoint;
+  final destinationPoint;
 
   HikeOption(
       {this.optionName,
@@ -12,7 +13,8 @@ class HikeOption {
       this.shortDescription,
       this.marks,
       this.marksQuality,
-      this.difficulty});
+      this.startPoint,
+      this.destinationPoint});
 
   factory HikeOption.fromJson(Map<String, dynamic> json) {
     return HikeOption(
@@ -20,8 +22,18 @@ class HikeOption {
         duration: json['duration'] as String,
         shortDescription: json['shortDescription'] as String,
         marks: json['marks'] as String,
-        marksQuality: json['marksQuality'] as String,
-        difficulty: json['difficulty'] as String);
+        marksQuality: json['marksQuality'] as String);
+  }
+
+  factory HikeOption.fromDatabase(Map<String, dynamic> entry) {
+    return HikeOption(
+        optionName: entry['OptionName'] as String,
+        duration: entry['Duration'].toString(),
+        shortDescription: entry['ShortDescription'] as String,
+        marks: entry['Marks'] as String,
+        marksQuality: entry['MarksQuality'] as String,
+        startPoint: entry['StartPoint'] as String,
+        destinationPoint: entry['DestinationPoint'] as String);
   }
 
   @override

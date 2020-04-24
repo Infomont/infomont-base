@@ -22,7 +22,7 @@ class DBProvider {
         .ensureInitialized(); // TODO: figure out why do we need that? Maybe not required when running from inside a widget
 
     var databasesPath = await getDatabasesPath();
-    var path = join(databasesPath, "infomont._database");
+    var path = join(databasesPath, "infomont.db");
 
     // Check if the database exists
     var exists = await databaseExists(path);
@@ -38,7 +38,7 @@ class DBProvider {
 
       // Copy from asset
       ByteData data = await rootBundle.load(
-          join("assets", "_database", "infomont._database"));
+          join("assets", "db", "infomont.db"));
       List<int> bytes =
       data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
 
@@ -56,7 +56,7 @@ class DBProvider {
     return _database;
   }
 
-  Future<List<HikeOption>> getHikeOptions(int id) async {
+  Future<List<HikeOption>> getHikeOptions() async {
     final db = await database;
 
    final queryString = '''
@@ -82,6 +82,6 @@ class DBProvider {
     ''';
 
     var result = await db.rawQuery(queryString, ['Complex turistic Sambata', 'Fereastra Mare a Sambetei']);
-    return result.isNotEmpty ? result.map((o) => HikeOption.fromJson(o)).toList() : [];
+    return result.isNotEmpty ? result.map((o) => HikeOption.fromDatabase(o)).toList() : [];
   }
 }
