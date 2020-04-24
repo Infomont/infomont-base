@@ -2,23 +2,24 @@ import 'package:app/hike_option.dart';
 import 'package:flutter/material.dart';
 
 import 'hike_option_provider.dart';
+import 'hike_option_search_parameters.dart';
 import 'hike_option_widget.dart';
 
 class ResultPage extends StatefulWidget {
-  ResultPage({this.hikeOptionProvider, Key key, this.title}) : super(key: key);
-
   final String title;
   final HikeOptionProvider hikeOptionProvider;
+  final HikeOptionSearchParameters searchParameters;
+
+  ResultPage({this.hikeOptionProvider, Key key, this.title, @required this.searchParameters}) : super(key: key);
 
   @override
-  _ResultPageState createState() => _ResultPageState(this.hikeOptionProvider);
+  _ResultPageState createState() => _ResultPageState();
 }
 
 class _ResultPageState extends State<ResultPage> {
-  _ResultPageState(this.hikeOptionProvider) : super();
+  _ResultPageState() : super();
 
   final _formKey = GlobalKey<FormState>(debugLabel: 'MainForm');
-  final HikeOptionProvider hikeOptionProvider;
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +49,7 @@ class _ResultPageState extends State<ResultPage> {
               ),
             ]),
             FutureBuilder<List<HikeOption>>(
-                future: hikeOptionProvider.fetchHikeOptions('Complex turistic Sambata', 'Fereastra Mare a Sambetei'),
+                future: widget.hikeOptionProvider.fetchHikeOptions(widget.searchParameters.departurePoint, widget.searchParameters.destinationPoint),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) print(snapshot.error);
 

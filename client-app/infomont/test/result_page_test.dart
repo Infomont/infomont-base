@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:app/hike_option.dart';
 import 'package:app/hike_option_json_provider.dart';
+import 'package:app/hike_option_search_parameters.dart';
 import 'package:app/json_adapter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -19,6 +20,7 @@ void main() {
     var hikeOptionProvider = HikeOptionJsonProvider(JsonAdapter());
     await tester.pumpWidget(buildTestableWidget(ResultPage(
         hikeOptionProvider: hikeOptionProvider,
+        searchParameters: HikeOptionSearchParameters('i dont care - departurePoint', 'i dont care - destinationPoint'),
         title: 'Not interesting - Results Page Title')));
 
     final progressIndicatorFinder = find.byType(CircularProgressIndicator);
@@ -37,6 +39,7 @@ void main() {
     var hikeOptionProvider = HikeOptionProviderStub(result, JsonAdapter());
     await tester.pumpWidget(buildTestableWidget(ResultPage(
         hikeOptionProvider: hikeOptionProvider,
+        searchParameters: HikeOptionSearchParameters('i dont care - departurePoint', 'i dont care - destinationPoint'),
         title: 'Not interesting - Results Page Title')));
     await tester.pumpAndSettle();
 

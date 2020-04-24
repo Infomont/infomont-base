@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'hike_option_db_provider.dart';
 import 'hike_option_json_provider.dart';
+import 'hike_option_search_parameters.dart';
 import 'start_page.dart';
 
 void main() => runApp(InfoMontApp());
@@ -38,7 +39,9 @@ class InfoMontApp extends StatelessWidget {
         '/result': (context) => ResultPage(
             //hikeOptionProvider: HikeOptionJsonProvider(JsonAdapter()),
             hikeOptionProvider: HikeOptionDbProvider(),
-            title: 'Results'),
+            title: 'Results',
+            searchParameters: HikeOptionSearchParameters('Complex turistic Sambata', 'Fereastra Mare a Sambetei'),
+        )
       },
     );
   }

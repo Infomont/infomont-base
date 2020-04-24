@@ -9,6 +9,25 @@ import 'package:sqflite/sqflite.dart';
 
 import 'hike_option.dart';
 
+// TODO: extract to new file
+class Point {
+  int id;
+  String name;
+  String description;
+
+  Point({this.id, this.name, this.description});
+
+  factory Point.fromJson(Map<String, dynamic> data) => new Point(id: data["id"], name:data["name"], description: data["description"],);
+  factory Point.fromDatabase(Map<String, dynamic> data) => new Point(id: data["ID"], name:data["Name"], description: data["Description"],);
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "name": name,
+    "description": description,
+  };
+
+}
+
 
 class DBProvider {
   DBProvider._();
@@ -54,6 +73,13 @@ class DBProvider {
     developer.log(_database.runtimeType.toString());
 
     return _database;
+  }
+
+  Future<List<Point>> getPoints(String searchText) async {
+    final db = await database;
+
+    var result = await db.query("Point", columns: ["ID", "Name", "Description"], where: "Name like ?", whereArgs: [searchText], limit: 5);
+    return result.isNotEmpty ? result.map((o) => Point.fromDatabase(o)).toList() : [];
   }
 
   Future<List<HikeOption>> getHikeOptions(String departurePoint, String destinationPoint) async {

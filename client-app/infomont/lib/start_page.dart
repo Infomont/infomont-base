@@ -1,4 +1,8 @@
+import 'package:app/db_provider.dart';
+import 'package:app/result_page.dart';
 import 'package:flutter/material.dart';
+
+import 'hike_option_search_parameters.dart';
 
 class StartPage extends StatefulWidget {
   StartPage({Key key, this.title}) : super(key: key);
@@ -78,6 +82,10 @@ class _StartPageState extends State<StartPage> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
                       child: TextFormField(
+                        // TODO: use AutoComplete List: https://medium.com/flutter-community/implementing-auto-complete-search-list-a8dd192bd5f6
+                        // TODO: move this line to the place where it actually belongs.
+                        // DBProvider.db.getPoints("test");
+
                         decoration: const InputDecoration(
                           hintText: 'Starting point',
                         ),
@@ -112,6 +120,16 @@ class _StartPageState extends State<StartPage> {
                           if (_formKey.currentState.validate()) {
                             // TODO: Process data.
                             Navigator.pushNamed(context, '/result');
+/*
+                            Navigator.push(
+                              context,
+                                MaterialPageRoute(
+                                // TODO: figure out how we can construct ResultsPage with searchParameters
+                                  builder: (context) => ResultPage(searchParameters: HikeOptionSearchParameters('Complex turistic Sambata', 'Fereastra Mare a Sambetei'),),
+                                ),
+                            );
+
+ */
                           }
                         },
                         child: Text('Submit'),
