@@ -27,8 +27,10 @@ class StartPage extends StatefulWidget {
 
 class _StartPageState extends State<StartPage> {
   final _formKey = GlobalKey<FormState>(debugLabel: 'MainForm');
-  final TextEditingController _typeAheadController = TextEditingController();
+  final TextEditingController _startingPointTypeAheadController = TextEditingController();
+  final TextEditingController _endPointTypeAheadController = TextEditingController();
   String _selectedStartingPoint;
+  String _selectedEndPoint;
 
   /*
   void _incrementCounter() {
@@ -86,50 +88,18 @@ class _StartPageState extends State<StartPage> {
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
-                      child: TypeAheadFormField<Point>(
-                        textFieldConfiguration: TextFieldConfiguration(
-                            controller: this._typeAheadController,
-                            decoration: InputDecoration(
-                                labelText: 'Starting point'
-                            )
-                        ),
-                        suggestionsCallback: (pattern) {
-                          return DBProvider.db.searchPointByName(pattern);
-                        },
-                        itemBuilder: (context, suggestion) {
-                          return ListTile(
-                            title: Text(suggestion.name),
-                          );
-                        },
-                        transitionBuilder: (context, suggestionsBox,
-                            controller) {
-                          return suggestionsBox;
-                        },
-                        onSuggestionSelected: (suggestion) {
-                          this._typeAheadController.text = suggestion.name;
-                        },
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return 'Please enter some text';
-                          }
-                          return null;
-                        },
-                        onSaved: (value) => this._selectedStartingPoint = value,
+                      child: buildPointTypeAheadField(
+                          'Starting point',
+                          this._startingPointTypeAheadController,
+                              (value) => this._selectedStartingPoint = value
                       ),
-
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
-                      child: TextFormField(
-                        decoration: const InputDecoration(
-                          hintText: 'End point',
-                        ),
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return 'Please enter some text';
-                          }
-                          return null;
-                        },
+                      child: buildPointTypeAheadField(
+                          'End point',
+                          this._endPointTypeAheadController,
+                              (value) => this._selectedEndPoint = value
                       ),
                     ),
                     Padding(
@@ -168,5 +138,38 @@ class _StartPageState extends State<StartPage> {
         ),
       ),
     );
+  }
+
+  TypeAheadFormField<Point> buildPointTypeAheadField(String label, TextEditingController typeAheadController, onSaved(dynamic value)) {
+    return TypeAheadFormField<Point>(
+                      textFieldConfiguration: TextFieldConfiguration(
+                          controller: typeAheadController,
+                          decoration: InputDecoration(
+                              labelText: label
+                          )
+                      ),
+                      suggestionsCallback: (pattern) {
+                        return DBProvider.db.searchPointByName(pattern);
+                      },
+                      itemBuilder: (context, suggestion) {
+                        return ListTile(
+                          title: Text(suggestion.name),
+                        );
+                      },
+                      transitionBuilder: (context, suggestionsBox,
+                          controller) {
+                        return suggestionsBox;
+                      },
+                      onSuggestionSelected: (suggestion) {
+                        typeAheadController.text = suggestion.name;
+                      },
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Please enter some text';
+                        }
+                        return null;
+                      },
+                      onSaved: onSaved,
+                    );
   }
 }
