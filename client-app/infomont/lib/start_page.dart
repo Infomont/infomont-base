@@ -31,6 +31,8 @@ class _StartPageState extends State<StartPage> {
   final TextEditingController _endPointTypeAheadController = TextEditingController();
   String _selectedStartingPoint = '';
   String _selectedEndPoint = '';
+  int _startingPointId = -1; // FIXME: also save ids
+  int _endPointId = -1;
 
   /*
   void _incrementCounter() {
