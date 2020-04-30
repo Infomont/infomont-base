@@ -2,6 +2,7 @@ import 'package:app/db_provider.dart';
 import 'package:app/result_page.dart';
 import 'package:flutter/material.dart';
 
+import 'hike_option_db_provider.dart';
 import 'hike_option_search_parameters.dart';
 
 class StartPage extends StatefulWidget {
@@ -117,20 +118,24 @@ class _StartPageState extends State<StartPage> {
                         onPressed: () {
                           // Validate will return true if the form is valid, or false if
                           // the form is invalid.
-                          if (_formKey.currentState.validate()) {
-                            // TODO: Process data.
-                            Navigator.pushNamed(context, '/result');
-/*
-                            Navigator.push(
-                              context,
-                                MaterialPageRoute(
-                                // TODO: figure out how we can construct ResultsPage with searchParameters
-                                  builder: (context) => ResultPage(searchParameters: HikeOptionSearchParameters('Complex turistic Sambata', 'Fereastra Mare a Sambetei'),),
-                                ),
-                            );
-
- */
+                          if (!_formKey.currentState.validate()) {
+                            return;
                           }
+
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              // TODO: figure out how we can construct ResultsPage with searchParameters
+                              builder: (context) =>
+                                  ResultPage(
+                                    hikeOptionProvider: HikeOptionDbProvider(),
+                                    title: 'Results',
+                                    searchParameters: HikeOptionSearchParameters(
+                                        'Complex turistic Sambata',
+                                        'Fereastra Mare a Sambetei'),
+                                  ),
+                            ),
+                          );
                         },
                         child: Text('Submit'),
                       ),
