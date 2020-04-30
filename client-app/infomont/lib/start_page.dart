@@ -1,9 +1,11 @@
 import 'package:app/db_provider.dart';
-import 'package:app/result_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 import 'hike_option_db_provider.dart';
 import 'hike_option_search_parameters.dart';
+import 'point.dart';
+import 'result_page.dart';
 
 class StartPage extends StatefulWidget {
   StartPage({Key key, this.title}) : super(key: key);
@@ -25,6 +27,8 @@ class StartPage extends StatefulWidget {
 
 class _StartPageState extends State<StartPage> {
   final _formKey = GlobalKey<FormState>(debugLabel: 'MainForm');
+  final TextEditingController _typeAheadController = TextEditingController();
+  String _selectedStartingPoint;
 
   /*
   void _incrementCounter() {
@@ -82,21 +86,37 @@ class _StartPageState extends State<StartPage> {
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
-                      child: TextFormField(
-                        // TODO: use AutoComplete List: https://medium.com/flutter-community/implementing-auto-complete-search-list-a8dd192bd5f6
-                        // TODO: move this line to the place where it actually belongs.
-                        // DBProvider.db.getPoints("test");
-
-                        decoration: const InputDecoration(
-                          hintText: 'Starting point',
+                      child: TypeAheadFormField<Point>(
+                        textFieldConfiguration: TextFieldConfiguration(
+                            controller: this._typeAheadController,
+                            decoration: InputDecoration(
+                                labelText: 'Starting point'
+                            )
                         ),
+                        suggestionsCallback: (pattern) {
+                          return DBProvider.db.searchPointByName(pattern);
+                        },
+                        itemBuilder: (context, suggestion) {
+                          return ListTile(
+                            title: Text(suggestion.name),
+                          );
+                        },
+                        transitionBuilder: (context, suggestionsBox,
+                            controller) {
+                          return suggestionsBox;
+                        },
+                        onSuggestionSelected: (suggestion) {
+                          this._typeAheadController.text = suggestion.name;
+                        },
                         validator: (value) {
                           if (value.isEmpty) {
                             return 'Please enter some text';
                           }
                           return null;
                         },
+                        onSaved: (value) => this._selectedStartingPoint = value,
                       ),
+
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16.0),

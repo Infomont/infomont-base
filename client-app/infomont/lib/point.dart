@@ -1,15 +1,18 @@
 class Point {
-  final int id;
-  final String name;
+  int id;
+  String name;
+  String description;
 
-  Point(this.id, this.name);
+  Point({this.id, this.name, this.description});
 
-  Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'name': name,
-    };
-  }
+  factory Point.fromJson(Map<String, dynamic> data) => new Point(id: data["id"], name:data["name"], description: data["description"],);
+  factory Point.fromDatabase(Map<String, dynamic> data) => new Point(id: data["ID"], name:data["Name"], description: data["Description"],);
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "name": name,
+    "description": description,
+  };
 
   @override
   String toString() {
