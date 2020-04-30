@@ -89,6 +89,13 @@ class DBProvider {
     ''';
 
     var result = await db.rawQuery(queryString);
+
+    if(result.isEmpty)
+      return [];
+
+    if (result[0]['OptionName'] == null) // handle result between two points which are not connected
+      return [];
+
     return result.isNotEmpty ? result.map((o) => HikeOption.fromDatabase(o)).toList() : [];
   }
 

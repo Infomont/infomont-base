@@ -29,8 +29,8 @@ class _StartPageState extends State<StartPage> {
   final _formKey = GlobalKey<FormState>(debugLabel: 'MainForm');
   final TextEditingController _startingPointTypeAheadController = TextEditingController();
   final TextEditingController _endPointTypeAheadController = TextEditingController();
-  String _selectedStartingPoint;
-  String _selectedEndPoint;
+  String _selectedStartingPoint = '';
+  String _selectedEndPoint = '';
 
   /*
   void _incrementCounter() {
@@ -111,6 +111,7 @@ class _StartPageState extends State<StartPage> {
                           if (!_formKey.currentState.validate()) {
                             return;
                           }
+                          _formKey.currentState.save();
 
                           Navigator.push(
                             context,
@@ -121,8 +122,8 @@ class _StartPageState extends State<StartPage> {
                                     hikeOptionProvider: HikeOptionDbProvider(),
                                     title: 'Results',
                                     searchParameters: HikeOptionSearchParameters(
-                                        'Complex turistic Sambata',
-                                        'Fereastra Mare a Sambetei'),
+                                        _selectedStartingPoint,
+                                        _selectedEndPoint),
                                   ),
                             ),
                           );
