@@ -49,13 +49,13 @@ class _ResultPageState extends State<ResultPage> {
               ),
             ]),
             FutureBuilder<List<HikeOption>>(
-                future: widget.hikeOptionProvider.fetchHikeOptions(widget.searchParameters.departurePointId, widget.searchParameters.destinationPointId),
+                future: widget.hikeOptionProvider.fetchHikeOptions(
+                    widget.searchParameters.departurePointId, widget.searchParameters.destinationPointId),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) print(snapshot.error);
 
                   return snapshot.hasData
-                      ? Expanded(
-                          child: HikeOptionsList(hikeOptions: snapshot.data))
+                      ? Expanded(child: HikeOptionsList(hikeOptions: snapshot.data))
                       : Center(child: CircularProgressIndicator());
                 }),
           ],

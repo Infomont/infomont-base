@@ -39,7 +39,8 @@ final route2Text = '2-Breaza - Peaks Brezei - Chalet Urlea';
 final route3Text = '3-Breaza - Peaks Brezei - Chalet Urlea';
 
 void main() {
-  test('Processes correctly the hike options from the data provider', () async { // TODO, check if needs to be async
+  test('Processes correctly the hike options from the data provider', () async {
+    // TODO, check if needs to be async
     var jsonAdapterStub = JsonAdapterStub();
     jsonAdapterStub.json = tmpJson;
     final provider = HikeOptionJsonProvider(jsonAdapterStub);

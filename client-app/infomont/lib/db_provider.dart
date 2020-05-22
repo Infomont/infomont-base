@@ -38,10 +38,8 @@ class DBProvider {
       } catch (_) {}
 
       // Copy from asset
-      ByteData data = await rootBundle.load(
-          join("assets", "db", "infomont.db"));
-      List<int> bytes =
-      data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+      ByteData data = await rootBundle.load(join("assets", "db", "infomont.db"));
+      List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
 
       // Write and flush the bytes written
       await File(path).writeAsBytes(bytes, flush: true);
@@ -60,19 +58,19 @@ class DBProvider {
   Future<List<Point>> getPoints(String searchText) async {
     final db = await database;
 
-    var result = await db.query("Point", columns: ["ID", "Name", "Description"], where: "Name like ?", whereArgs: [searchText], limit: 5);
+    var result = await db.query("Point",
+        columns: ["ID", "Name", "Description"], where: "Name like ?", whereArgs: [searchText], limit: 5);
     return result.isNotEmpty ? result.map((o) => Point.fromDatabase(o)).toList() : [];
   }
 
   Future<List<HikeOption>> getHikeOptions(int departurePointId, int destinationPointId) async {
     List<HikeOption> hikeOptions = new List<HikeOption>();
 
-    List<PortionDetail> portionDetails =  await  getPortionDetails(departurePointId, destinationPointId);
+    List<PortionDetail> portionDetails = await getPortionDetails(departurePointId, destinationPointId);
 
     var portionDetailsByTrackId = new Map<int, List<PortionDetail>>();
 
-    if(portionDetails.length == 0)
-      return hikeOptions;
+    if (portionDetails.length == 0) return hikeOptions;
 
     for (var portionDetail in portionDetails) {
       if (!portionDetailsByTrackId.containsKey(portionDetail.cacheTrekId)) {
@@ -82,10 +80,9 @@ class DBProvider {
       portionDetailsByTrackId[portionDetail.cacheTrekId].add(portionDetail);
     }
 
-
     for (var entry in portionDetailsByTrackId.entries) {
       var currentTrackPortionDetails = entry.value;
-      
+
       int durationSum = 0;
       var notDuplicatedMarks = new Set<String>();
       var notDuplicatedMarkStates = new Set<String>();
@@ -96,7 +93,9 @@ class DBProvider {
       }
 
       HikeOption hikeOption = new HikeOption();
-      hikeOption.optionName = currentTrackPortionDetails[0].startPointName + ' - ' + currentTrackPortionDetails[currentTrackPortionDetails.length -1 ].destinationPointName;
+      hikeOption.optionName = currentTrackPortionDetails[0].startPointName +
+          ' - ' +
+          currentTrackPortionDetails[currentTrackPortionDetails.length - 1].destinationPointName;
       hikeOption.duration = 0;
       hikeOption.shortDescription = currentTrackPortionDetails[0].description;
       hikeOption.duration = getTimeString(durationSum);
@@ -143,22 +142,17 @@ class DBProvider {
     And CT.IDDestPoint = $destinationPointId
     limit 1
     )
-    Order by CTP.PortionOrder'''
-    ;
+    Order by CTP.PortionOrder''';
 
     var result = await db.rawQuery(queryString);
 
-    if(result.isEmpty)
-      return [];
+    if (result.isEmpty) return [];
 
     return result.isNotEmpty ? result.map((o) => PortionDetail.fromDatabase(o)).toList() : [];
   }
 
-
-
   Future<List<Point>> searchPointByName(String searchPointName) async {
     final db = await database;
-
 
     final getPointsForAutocompleteQuerry = '''
       Select ID, Name, Description 

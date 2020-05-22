@@ -1,4 +1,4 @@
-class PortionDetail{
+class PortionDetail {
   final portionName;
   final startPointName;
   final destinationPointName;
@@ -20,15 +20,13 @@ class PortionDetail{
 
   factory PortionDetail.fromDatabase(Map<String, dynamic> entry) {
     return PortionDetail(
-      portionName: entry['PortionName'] as String,
-      startPointName: entry['StartPointName'] as String,
-      destinationPointName: entry['DestinationPointName'] as String,
-      duration: entry['Duration'] as int, // TODO: convert to int
-      mark: entry['Mark'] as String,
-      markState: entry['MarkState'] as String,
-      description: entry['Description'] as String,
-      cacheTrekId: entry['CacheTrekId'] as int
-    );
+        portionName: entry['PortionName'] as String,
+        startPointName: entry['StartPointName'] as String,
+        destinationPointName: entry['DestinationPointName'] as String,
+        duration: entry['Duration'] as int, // TODO: convert to int
+        mark: entry['Mark'] as String,
+        markState: entry['MarkState'] as String,
+        description: entry['Description'] as String,
+        cacheTrekId: entry['CacheTrekId'] as int);
   }
-
 }

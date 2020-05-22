@@ -15,8 +15,7 @@ Widget buildTestableWidget(Widget widget) {
 }
 
 void main() {
-  testWidgets('Displays progress indicator before showing results',
-      (WidgetTester tester) async {
+  testWidgets('Displays progress indicator before showing results', (WidgetTester tester) async {
     var hikeOptionProvider = HikeOptionJsonProvider(JsonAdapter());
     await tester.pumpWidget(buildTestableWidget(ResultPage(
         hikeOptionProvider: hikeOptionProvider,
@@ -27,8 +26,7 @@ void main() {
     expect(progressIndicatorFinder, findsOneWidget);
   });
 
-  testWidgets('Displays 3 different route options',
-      (WidgetTester tester) async {
+  testWidgets('Displays 3 different route options', (WidgetTester tester) async {
     final route1Text = 'Route 1: Test';
     final route2Text = 'Route 2: Test';
     final route3Text = 'Route 3: Test';
@@ -50,8 +48,7 @@ void main() {
 }
 
 class HikeOptionProviderStub extends HikeOptionJsonProvider {
-  HikeOptionProviderStub(this.hikeOptions, JsonAdapter jsonAdapter)
-      : super(jsonAdapter);
+  HikeOptionProviderStub(this.hikeOptions, JsonAdapter jsonAdapter) : super(jsonAdapter);
   final List<HikeOption> hikeOptions;
 
   @override

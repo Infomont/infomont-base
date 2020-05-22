@@ -88,17 +88,13 @@ class _StartPageState extends State<StartPage> {
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
-                      child: buildPointTypeAheadField(
-                          'Starting point',
-                          this._startingPointTypeAheadController,
+                      child: buildPointTypeAheadField('Starting point', this._startingPointTypeAheadController,
                           (value) => this._startingPointId = value),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
                       child: buildPointTypeAheadField(
-                          'End point',
-                          this._endPointTypeAheadController,
-                          (value) => this._endPointId = value),
+                          'End point', this._endPointTypeAheadController, (value) => this._endPointId = value),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -115,14 +111,11 @@ class _StartPageState extends State<StartPage> {
                             context,
                             MaterialPageRoute(
                               // TODO: figure out how we can construct ResultsPage with searchParameters
-                              builder: (context) =>
-                                  ResultPage(
-                                    hikeOptionProvider: HikeOptionDbProvider(),
-                                    title: 'Results',
-                                    searchParameters: HikeOptionSearchParameters(
-                                        _startingPointId,
-                                        _endPointId),
-                                  ),
+                              builder: (context) => ResultPage(
+                                hikeOptionProvider: HikeOptionDbProvider(),
+                                title: 'Results',
+                                searchParameters: HikeOptionSearchParameters(_startingPointId, _endPointId),
+                              ),
                             ),
                           );
                         },
@@ -139,36 +132,31 @@ class _StartPageState extends State<StartPage> {
     );
   }
 
-  TypeAheadFormField<Point> buildPointTypeAheadField(String label, TextEditingController typeAheadController, onSelect(dynamic value)) {
+  TypeAheadFormField<Point> buildPointTypeAheadField(
+      String label, TextEditingController typeAheadController, onSelect(dynamic value)) {
     return TypeAheadFormField<Point>(
-                      textFieldConfiguration: TextFieldConfiguration(
-                          controller: typeAheadController,
-                          decoration: InputDecoration(
-                              labelText: label
-                          )
-                      ),
-                      suggestionsCallback: (pattern) {
-                        return DBProvider.db.searchPointByName(pattern);
-                      },
-                      itemBuilder: (context, suggestion) {
-                        return ListTile(
-                          title: Text(suggestion.name),
-                        );
-                      },
-                      transitionBuilder: (context, suggestionsBox,
-                          controller) {
-                        return suggestionsBox;
-                      },
-                      onSuggestionSelected: (suggestion) {
-                        typeAheadController.text = suggestion.name;
-                        onSelect(suggestion.id);
-                      },
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Please enter some text';
-                        }
-                        return null;
-                      }
-                    );
+        textFieldConfiguration:
+            TextFieldConfiguration(controller: typeAheadController, decoration: InputDecoration(labelText: label)),
+        suggestionsCallback: (pattern) {
+          return DBProvider.db.searchPointByName(pattern);
+        },
+        itemBuilder: (context, suggestion) {
+          return ListTile(
+            title: Text(suggestion.name),
+          );
+        },
+        transitionBuilder: (context, suggestionsBox, controller) {
+          return suggestionsBox;
+        },
+        onSuggestionSelected: (suggestion) {
+          typeAheadController.text = suggestion.name;
+          onSelect(suggestion.id);
+        },
+        validator: (value) {
+          if (value.isEmpty) {
+            return 'Please enter some text';
+          }
+          return null;
+        });
   }
 }
