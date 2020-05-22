@@ -20,7 +20,7 @@ void main() {
     var hikeOptionProvider = HikeOptionJsonProvider(JsonAdapter());
     await tester.pumpWidget(buildTestableWidget(ResultPage(
         hikeOptionProvider: hikeOptionProvider,
-        searchParameters: HikeOptionSearchParameters('i dont care - departurePoint', 'i dont care - destinationPoint'),
+        searchParameters: HikeOptionSearchParameters(4711, 0815), // arbitrary ids
         title: 'Not interesting - Results Page Title')));
 
     final progressIndicatorFinder = find.byType(CircularProgressIndicator);
@@ -39,7 +39,7 @@ void main() {
     var hikeOptionProvider = HikeOptionProviderStub(result, JsonAdapter());
     await tester.pumpWidget(buildTestableWidget(ResultPage(
         hikeOptionProvider: hikeOptionProvider,
-        searchParameters: HikeOptionSearchParameters('i dont care - departurePoint', 'i dont care - destinationPoint'),
+        searchParameters: HikeOptionSearchParameters(4711, 0815), // arbitrary ids
         title: 'Not interesting - Results Page Title')));
     await tester.pumpAndSettle();
 
@@ -55,7 +55,7 @@ class HikeOptionProviderStub extends HikeOptionJsonProvider {
   final List<HikeOption> hikeOptions;
 
   @override
-  Future<List<HikeOption>> fetchHikeOptions(String departurePoint, String destinationPoint) async {
+  Future<List<HikeOption>> fetchHikeOptions(int departurePointId, int destinationPointId) async {
     return this.hikeOptions;
   }
 }

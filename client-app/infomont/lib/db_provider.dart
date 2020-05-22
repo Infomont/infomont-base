@@ -63,7 +63,7 @@ class DBProvider {
     return result.isNotEmpty ? result.map((o) => Point.fromDatabase(o)).toList() : [];
   }
 
-  Future<List<HikeOption>> getHikeOptions(String departurePoint, String destinationPoint) async {
+  Future<List<HikeOption>> getHikeOptions(int departurePointId, int destinationPointId) async {
     final db = await database;
 
    final queryString = '''
@@ -82,8 +82,8 @@ class DBProvider {
       Select IDPortion from Cache_Trek_Portions
       Where CacheTrekID in (
       Select ID from Cache_Trek 
-      Where IDDepPoint = (Select ID from Point where name like '$departurePoint')
-      And IDDestPoint = (Select ID from Point where name like '$destinationPoint'))
+      Where IDDepPoint = $departurePointId
+      And IDDestPoint = $destinationPointId)
       Order By CacheTrekID, PortionOrder
       )
     ''';

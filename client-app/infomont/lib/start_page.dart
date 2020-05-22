@@ -93,16 +93,14 @@ class _StartPageState extends State<StartPage> {
                       child: buildPointTypeAheadField(
                           'Starting point',
                           this._startingPointTypeAheadController,
-                              (value) => this._selectedStartingPoint = value
-                      ),
+                          (value) => this._startingPointId = value),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
                       child: buildPointTypeAheadField(
                           'End point',
                           this._endPointTypeAheadController,
-                              (value) => this._selectedEndPoint = value
-                      ),
+                          (value) => this._endPointId = value),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -124,8 +122,8 @@ class _StartPageState extends State<StartPage> {
                                     hikeOptionProvider: HikeOptionDbProvider(),
                                     title: 'Results',
                                     searchParameters: HikeOptionSearchParameters(
-                                        _selectedStartingPoint,
-                                        _selectedEndPoint),
+                                        _startingPointId,
+                                        _endPointId),
                                   ),
                             ),
                           );
@@ -143,7 +141,7 @@ class _StartPageState extends State<StartPage> {
     );
   }
 
-  TypeAheadFormField<Point> buildPointTypeAheadField(String label, TextEditingController typeAheadController, onSaved(dynamic value)) {
+  TypeAheadFormField<Point> buildPointTypeAheadField(String label, TextEditingController typeAheadController, onSelect(dynamic value)) {
     return TypeAheadFormField<Point>(
                       textFieldConfiguration: TextFieldConfiguration(
                           controller: typeAheadController,
@@ -165,14 +163,14 @@ class _StartPageState extends State<StartPage> {
                       },
                       onSuggestionSelected: (suggestion) {
                         typeAheadController.text = suggestion.name;
+                        onSelect(suggestion.id);
                       },
                       validator: (value) {
                         if (value.isEmpty) {
                           return 'Please enter some text';
                         }
                         return null;
-                      },
-                      onSaved: onSaved,
+                      }
                     );
   }
 }

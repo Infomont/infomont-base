@@ -32,14 +32,7 @@ class InfoMontApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         // When navigating to the "/" route, build the StartPage widget.
-        '/': (context) => StartPage(title: 'Start Hiking'),
-        // When navigating to the "/result" route, build the ResultPage widget.
-        '/result': (context) => ResultPage(
-            //hikeOptionProvider: HikeOptionJsonProvider(JsonAdapter()),
-            hikeOptionProvider: HikeOptionDbProvider(),
-            title: 'Results',
-            searchParameters: HikeOptionSearchParameters('Complex turistic Sambata', 'Fereastra Mare a Sambetei'),
-        )
+        '/': (context) => StartPage(title: 'Start Hiking')
       },
     );
   }

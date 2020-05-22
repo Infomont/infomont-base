@@ -41,7 +41,7 @@ class _ResultPageState extends State<ResultPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text('Results for: '
-                'Breaza - Chalet Urlea'), // TODO: replace with content from web API
+                'Cabana Valea Sambetei - Varful Moldoveanu'), // TODO: replace with content from web API
             ButtonBar(children: <Widget>[
               FlatButton(
                 child: Text('Show map'),
@@ -49,7 +49,7 @@ class _ResultPageState extends State<ResultPage> {
               ),
             ]),
             FutureBuilder<List<HikeOption>>(
-                future: widget.hikeOptionProvider.fetchHikeOptions(widget.searchParameters.departurePoint, widget.searchParameters.destinationPoint),
+                future: widget.hikeOptionProvider.fetchHikeOptions(widget.searchParameters.departurePointId, widget.searchParameters.destinationPointId),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) print(snapshot.error);
 

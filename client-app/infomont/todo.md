@@ -1,4 +1,5 @@
-- Integrate SQLlite DB - load results from there
+- Fix DB Query
+- Improve UI/Layout
 - Create Splash Screen
 - Change App Icon, Change App Name
 - Implement App Theme (Color Pallet)

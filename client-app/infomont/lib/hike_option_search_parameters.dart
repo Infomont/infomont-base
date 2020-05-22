@@ -1,6 +1,6 @@
 class HikeOptionSearchParameters {
-  final String departurePoint;
-  final String destinationPoint;
+  final int departurePointId;
+  final int destinationPointId;
 
-  HikeOptionSearchParameters(this.departurePoint, this.destinationPoint);
+  HikeOptionSearchParameters(this.departurePointId, this.destinationPointId);
 }
