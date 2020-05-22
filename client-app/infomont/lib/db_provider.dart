@@ -8,6 +8,7 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'hike_option.dart';
+import 'portion_detail.dart';
 import 'point.dart';
 
 class DBProvider {
@@ -64,40 +65,96 @@ class DBProvider {
   }
 
   Future<List<HikeOption>> getHikeOptions(int departurePointId, int destinationPointId) async {
+    List<HikeOption> hikeOptions = new List<HikeOption>();
+
+    List<PortionDetail> portionDetails =  await  getPortionDetails(departurePointId, destinationPointId);
+
+    var portionDetailsByTrackId = new Map<int, List<PortionDetail>>();
+
+    if(portionDetails.length == 0)
+      return hikeOptions;
+
+    for (var portionDetail in portionDetails) {
+      if (!portionDetailsByTrackId.containsKey(portionDetail.cacheTrekId)) {
+        portionDetailsByTrackId[portionDetail.cacheTrekId] = new List<PortionDetail>();
+      }
+
+      portionDetailsByTrackId[portionDetail.cacheTrekId].add(portionDetail);
+    }
+
+
+    for (var entry in portionDetailsByTrackId.entries) {
+      var currentTrackPortionDetails = entry.value;
+      
+      int durationSum = 0;
+      var notDuplicatedMarks = new Set<String>();
+      var notDuplicatedMarkStates = new Set<String>();
+      for (var portionDetail in currentTrackPortionDetails) {
+        durationSum += portionDetail.duration;
+        notDuplicatedMarks.add(portionDetail.mark);
+        notDuplicatedMarkStates.add(portionDetail.markState);
+      }
+
+      HikeOption hikeOption = new HikeOption();
+      hikeOption.optionName = currentTrackPortionDetails[0].startPointName + ' - ' + currentTrackPortionDetails[currentTrackPortionDetails.length -1 ].destinationPointName;
+      hikeOption.duration = 0;
+      hikeOption.shortDescription = currentTrackPortionDetails[0].description;
+      hikeOption.duration = getTimeString(durationSum);
+      hikeOption.marks = notDuplicatedMarks.join(', ');
+      hikeOption.marksQuality = notDuplicatedMarkStates.join(', ');
+      hikeOptions.add(hikeOption);
+    }
+
+    return hikeOptions;
+  }
+
+  String getTimeString(int value) {
+    final int hour = value ~/ 60;
+    final int minutes = value % 60;
+    return '${hour.toString()} hours ${minutes.toString().padLeft(2, "0")} minutes';
+  }
+
+  Future<List<PortionDetail>> getPortionDetails(int departurePointId, int destinationPointId) async {
     final db = await database;
 
-   final queryString = '''
-      Select StartPoint.Name || ' - ' || (Select max(DestinationPoint.Name)) as OptionName, StartPoint.Name as StartPoint, 
-      (Select max(DestinationPoint.Name)) as DestinationPoint, (Select group_concat(distinct MarkType.Name)) as Marks,
-      group_concat(distinct MarkState.Description) as MarksQuality, Sum(Portion.Duration) as Duration, Portion.Description as ShortDescription from Portion
-      Inner Join Point as StartPoint
-      On Portion.StartPointID = StartPoint.ID
-      Inner Join Point as DestinationPoint
-      On Portion.DestinationPointID = DestinationPoint.ID
-      Inner Join MarkType
-      On Portion.MarkType = MarkType.ID
-      Inner Join MarkState
-      On Portion.MarkState = MarkState.ID
-      where Portion.ID in (
-      Select IDPortion from Cache_Trek_Portions
-      Where CacheTrekID in (
-      Select ID from Cache_Trek 
-      Where IDDepPoint = $departurePointId
-      And IDDestPoint = $destinationPointId)
-      Order By CacheTrekID, PortionOrder
-      )
-    ''';
+    final queryString = '''
+    Select StartPoint.Name || ' - ' || DestinationPoint.Name as PortionName,
+    StartPoint.Name as StartPointName, DestinationPoint.Name as DestinationPointName,
+    Portion.Duration, MarkType.Name as Mark, MarkState.Description as MarkState,
+    Portion.Description, CTP.CacheTrekID as CacheTrekId
+    from Cache_Trek_Portions CTP
+    inner join Portion
+    on Portion.ID = CTP.IDPortion
+    Inner Join Point as StartPoint
+    on Portion.StartPointID = StartPoint.ID
+    Inner Join Point as DestinationPoint
+    on Portion.DestinationPointID = DestinationPoint.ID
+    Inner Join MarkType
+    On Portion.MarkType = MarkType.ID
+    Inner Join MarkState
+    On Portion.MarkState = MarkState.ID
+    Where CTP.CacheTrekID = (
+    Select CT.ID as CacheTrekID from Cache_Trek CT
+    inner join point as DeparturePoint
+    on CT.IDDepPoint = DeparturePoint.ID
+    inner join point as DestinationPoint
+    on CT.IDDestPoint = DestinationPoint.ID
+    where CT.IDDepPoint = $departurePointId
+    And CT.IDDestPoint = $destinationPointId
+    limit 1
+    )
+    Order by CTP.PortionOrder'''
+    ;
 
     var result = await db.rawQuery(queryString);
 
     if(result.isEmpty)
       return [];
 
-    if (result[0]['OptionName'] == null) // handle result between two points which are not connected
-      return [];
-
-    return result.isNotEmpty ? result.map((o) => HikeOption.fromDatabase(o)).toList() : [];
+    return result.isNotEmpty ? result.map((o) => PortionDetail.fromDatabase(o)).toList() : [];
   }
+
+
 
   Future<List<Point>> searchPointByName(String searchPointName) async {
     final db = await database;

@@ -1,11 +1,11 @@
 class HikeOption {
-  final optionName;
-  final duration;
-  final shortDescription;
-  final marks;
-  final marksQuality;
-  final startPoint;
-  final destinationPoint;
+  var optionName;
+  var duration;
+  var shortDescription;
+  var marks;
+  var marksQuality;
+  var startPoint;
+  var destinationPoint;
 
   HikeOption(
       {this.optionName,

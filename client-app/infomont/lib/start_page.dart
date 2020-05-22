@@ -29,9 +29,7 @@ class _StartPageState extends State<StartPage> {
   final _formKey = GlobalKey<FormState>(debugLabel: 'MainForm');
   final TextEditingController _startingPointTypeAheadController = TextEditingController();
   final TextEditingController _endPointTypeAheadController = TextEditingController();
-  String _selectedStartingPoint = '';
-  String _selectedEndPoint = '';
-  int _startingPointId = -1; // FIXME: also save ids
+  int _startingPointId = -1;
   int _endPointId = -1;
 
   /*
