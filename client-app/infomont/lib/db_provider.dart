@@ -132,7 +132,7 @@ class DBProvider {
     On Portion.MarkType = MarkType.ID
     Inner Join MarkState
     On Portion.MarkState = MarkState.ID
-    Where CTP.CacheTrekID = (
+    Where CTP.CacheTrekID in (
     Select CT.ID as CacheTrekID from Cache_Trek CT
     inner join point as DeparturePoint
     on CT.IDDepPoint = DeparturePoint.ID
@@ -140,7 +140,7 @@ class DBProvider {
     on CT.IDDestPoint = DestinationPoint.ID
     where CT.IDDepPoint = $departurePointId
     And CT.IDDestPoint = $destinationPointId
-    limit 1
+    limit 10
     )
     Order by CTP.PortionOrder''';
 
