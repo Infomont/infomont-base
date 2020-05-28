@@ -29,6 +29,8 @@ class _StartPageState extends State<StartPage> {
   final _formKey = GlobalKey<FormState>(debugLabel: 'MainForm');
   final TextEditingController _startingPointTypeAheadController = TextEditingController();
   final TextEditingController _endPointTypeAheadController = TextEditingController();
+  String _startingPointName = '';
+  String _endPointName = '';
   int _startingPointId = -1;
   int _endPointId = -1;
 
@@ -89,12 +91,19 @@ class _StartPageState extends State<StartPage> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
                       child: buildPointTypeAheadField('Starting point', this._startingPointTypeAheadController,
-                          (value) => this._startingPointId = value),
+                              (id, name) {
+                        this._startingPointId = id;
+                        this._startingPointName = name;
+                      }),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
                       child: buildPointTypeAheadField(
-                          'End point', this._endPointTypeAheadController, (value) => this._endPointId = value),
+                          'End point', this._endPointTypeAheadController,
+                              (id, name) {
+                                this._endPointId = id;
+                                this._endPointName = name;
+                              }),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -114,7 +123,7 @@ class _StartPageState extends State<StartPage> {
                               builder: (context) => ResultPage(
                                 hikeOptionProvider: HikeOptionDbProvider(),
                                 title: 'Results',
-                                searchParameters: HikeOptionSearchParameters(_startingPointId, _endPointId),
+                                searchParameters: HikeOptionSearchParameters(_startingPointId, _startingPointName, _endPointId, _endPointName),
                               ),
                             ),
                           );
@@ -133,7 +142,7 @@ class _StartPageState extends State<StartPage> {
   }
 
   TypeAheadFormField<Point> buildPointTypeAheadField(
-      String label, TextEditingController typeAheadController, onSelect(dynamic value)) {
+      String label, TextEditingController typeAheadController, onSelect(int id, String name)) {
     return TypeAheadFormField<Point>(
         textFieldConfiguration:
             TextFieldConfiguration(controller: typeAheadController, decoration: InputDecoration(labelText: label)),
@@ -150,7 +159,7 @@ class _StartPageState extends State<StartPage> {
         },
         onSuggestionSelected: (suggestion) {
           typeAheadController.text = suggestion.name;
-          onSelect(suggestion.id);
+          onSelect(suggestion.id, suggestion.name);
         },
         validator: (value) {
           if (value.isEmpty) {

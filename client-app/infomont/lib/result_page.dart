@@ -40,8 +40,10 @@ class _ResultPageState extends State<ResultPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text('Results for: '
-                'Cabana Valea Sambetei - Varful Moldoveanu'), // TODO: replace with content from web API
+            Text('Results for: ' +
+                widget.searchParameters.departurePoint +
+                ' - ' +
+                widget.searchParameters.destinationPoint),
             ButtonBar(children: <Widget>[
               FlatButton(
                 child: Text('Show map'),

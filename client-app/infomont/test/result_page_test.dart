@@ -19,7 +19,7 @@ void main() {
     var hikeOptionProvider = HikeOptionJsonProvider(JsonAdapter());
     await tester.pumpWidget(buildTestableWidget(ResultPage(
         hikeOptionProvider: hikeOptionProvider,
-        searchParameters: HikeOptionSearchParameters(4711, 0815), // arbitrary ids
+        searchParameters: HikeOptionSearchParameters(4711, 'random departure pt', 0815, 'random destination pt'), // arbitrary ids
         title: 'Not interesting - Results Page Title')));
 
     final progressIndicatorFinder = find.byType(CircularProgressIndicator);
@@ -37,7 +37,7 @@ void main() {
     var hikeOptionProvider = HikeOptionProviderStub(result, JsonAdapter());
     await tester.pumpWidget(buildTestableWidget(ResultPage(
         hikeOptionProvider: hikeOptionProvider,
-        searchParameters: HikeOptionSearchParameters(4711, 0815), // arbitrary ids
+        searchParameters: HikeOptionSearchParameters(4711, 'random departure pt', 0815, 'random destination pt'), // arbitrary ids
         title: 'Not interesting - Results Page Title')));
     await tester.pumpAndSettle();
 
