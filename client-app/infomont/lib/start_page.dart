@@ -81,57 +81,59 @@ class _StartPageState extends State<StartPage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Form(
-              key: _formKey,
-              child: Padding(
-                padding: EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 16.0),
-                      child: buildPointTypeAheadField('Starting point', this._startingPointTypeAheadController,
-                              (id, name) {
-                        this._startingPointId = id;
-                        this._startingPointName = name;
-                      }),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 16.0),
-                      child: buildPointTypeAheadField(
-                          'End point', this._endPointTypeAheadController,
-                              (id, name) {
-                                this._endPointId = id;
-                                this._endPointName = name;
-                              }),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 16.0),
-                      child: RaisedButton(
-                        onPressed: () {
-                          // Validate will return true if the form is valid, or false if
-                          // the form is invalid.
-                          if (!_formKey.currentState.validate()) {
-                            return;
-                          }
-                          _formKey.currentState.save();
-
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              // TODO: figure out how we can construct ResultsPage with searchParameters
-                              builder: (context) => ResultPage(
-                                hikeOptionProvider: HikeOptionDbProvider(),
-                                title: 'Results',
-                                searchParameters: HikeOptionSearchParameters(_startingPointId, _startingPointName, _endPointId, _endPointName),
-                              ),
-                            ),
-                          );
-                        },
-                        child: Text('Submit'),
+            Container(
+              height: MediaQuery.of(context).size.height * 0.45,
+              child: Form(
+                key: _formKey,
+                child: Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 4.0),
+                        child: buildPointTypeAheadField('Starting point', this._startingPointTypeAheadController,
+                            (id, name) {
+                          this._startingPointId = id;
+                          this._startingPointName = name;
+                        }),
                       ),
-                    ),
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 4.0),
+                        child: buildPointTypeAheadField('End point', this._endPointTypeAheadController, (id, name) {
+                          this._endPointId = id;
+                          this._endPointName = name;
+                        }),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 16.0),
+                        child: RaisedButton(
+                          onPressed: () {
+                            // Validate will return true if the form is valid, or false if
+                            // the form is invalid.
+                            if (!_formKey.currentState.validate()) {
+                              return;
+                            }
+                            _formKey.currentState.save();
+
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                // TODO: figure out how we can construct ResultsPage with searchParameters
+                                builder: (context) => ResultPage(
+                                  hikeOptionProvider: HikeOptionDbProvider(),
+                                  title: 'Results',
+                                  searchParameters: HikeOptionSearchParameters(
+                                      _startingPointId, _startingPointName, _endPointId, _endPointName),
+                                ),
+                              ),
+                            );
+                          },
+                          child: Text('Submit'),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
