@@ -144,8 +144,13 @@ class _StartPageState extends State<StartPage> {
   TypeAheadFormField<Point> buildPointTypeAheadField(
       String label, TextEditingController typeAheadController, onSelect(int id, String name)) {
     return TypeAheadFormField<Point>(
-        textFieldConfiguration:
-            TextFieldConfiguration(controller: typeAheadController, decoration: InputDecoration(labelText: label)),
+        textFieldConfiguration: TextFieldConfiguration(
+            controller: typeAheadController,
+            style: TextStyle(color: Color(0xFF5D576B)),
+            decoration: InputDecoration(
+              labelText: label,
+              labelStyle: TextStyle(color: Colors.grey),
+            )),
         suggestionsCallback: (pattern) {
           return DBProvider.db.searchPointByName(pattern);
         },

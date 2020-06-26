@@ -45,7 +45,7 @@ class InfoMontApp extends StatelessWidget {
             display4: TextStyle(color: Colors.black),
             headline: TextStyle(color: Colors.amberAccent),
             subhead: TextStyle(color: Color(0xFFE0E2DB)),
-            title: TextStyle(color: Color(0xFFE0E2DB)),
+            //title: TextStyle(color: Color(0xFFE0E2DB)),
           ),
           inputDecorationTheme: InputDecorationTheme(
             fillColor: Color(0xFEFDD124),
