@@ -37,18 +37,19 @@ class InfoMontApp extends StatelessWidget {
           textTheme: TextTheme(
             body1: TextStyle(color: Colors.black),
             body2: TextStyle(color: Colors.black),
-            button: TextStyle(color: Colors.black),
-            caption: TextStyle(color: Colors.indigo),
+            //button: TextStyle(color: Colors.black),
+            //caption: TextStyle(color: Colors.indigo),
             display1: TextStyle(color: Colors.black),
             display2: TextStyle(color: Colors.black),
             display3: TextStyle(color: Colors.black),
             display4: TextStyle(color: Colors.black),
             headline: TextStyle(color: Colors.amberAccent),
-            subhead: TextStyle(color: Colors.red),
+            subhead: TextStyle(color: Color(0xFFE0E2DB)),
             title: TextStyle(color: Color(0xFFE0E2DB)),
           ),
           inputDecorationTheme: InputDecorationTheme(
-            fillColor: Color(0xFFFDD124),
+            fillColor: Color(0xFEFDD124),
+            hoverColor: Colors.red,
             filled: true,
           ),
 
