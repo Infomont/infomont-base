@@ -79,8 +79,9 @@ class DBProvider {
 
       portionDetailsByTrackId[portionDetail.cacheTrekId].add(portionDetail);
     }
-
+    var optionNumber = 0;
     for (var entry in portionDetailsByTrackId.entries) {
+      optionNumber++;
       var currentTrackPortionDetails = entry.value;
 
       int durationSum = 0;
@@ -89,13 +90,14 @@ class DBProvider {
       for (var portionDetail in currentTrackPortionDetails) {
         durationSum += portionDetail.duration;
         notDuplicatedMarks.add(portionDetail.mark);
-        notDuplicatedMarkStates.add(portionDetail.markState);
+        notDuplicatedMarkStates.add(formatMarksQuality(portionDetail.markState));
       }
 
       HikeOption hikeOption = new HikeOption();
       hikeOption.optionName = currentTrackPortionDetails[0].startPointName +
           ' - ' +
           currentTrackPortionDetails[currentTrackPortionDetails.length - 1].destinationPointName;
+      hikeOption.optionNumber = optionNumber;
       hikeOption.duration = 0;
       hikeOption.shortDescription = currentTrackPortionDetails[0].description;
       hikeOption.duration = getTimeString(durationSum);
@@ -106,6 +108,21 @@ class DBProvider {
 
     return hikeOptions;
   }
+
+// CAREFUL: Duplicated code with hike_option.dart
+  static String formatMarksQuality(var marksQuality){
+    switch (marksQuality){
+      case 'Inexistent' : return '☆';
+      case 'Foarte rar' : return '☆☆';
+      case 'Deteriorat' : return '☆☆☆';
+      case 'Bun' : return '☆☆☆☆';
+      case 'Foarte bun' : return '☆☆☆☆☆';
+    }
+    return marksQuality;
+  }
+
+
+
 
   String getTimeString(int value) {
     final int hour = value ~/ 60;

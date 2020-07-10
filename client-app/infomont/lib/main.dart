@@ -55,7 +55,7 @@ class InfoMontApp extends StatelessWidget {
 
           cursorColor: Color(0xFF5D576B),
           primarySwatch: MaterialColor(0xFF445B18, color),
-          scaffoldBackgroundColor: Color(0xFF5D5726),
+          scaffoldBackgroundColor: Colors.lightGreen,
           accentColor: Color(0xFFE0E2DB),
           buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.accent),
           fontFamily: "Roboto",

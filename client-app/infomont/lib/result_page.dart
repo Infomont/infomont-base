@@ -10,7 +10,12 @@ class ResultPage extends StatefulWidget {
   final HikeOptionProvider hikeOptionProvider;
   final HikeOptionSearchParameters searchParameters;
 
-  ResultPage({this.hikeOptionProvider, Key key, this.title, @required this.searchParameters}) : super(key: key);
+  ResultPage(
+      {this.hikeOptionProvider,
+      Key key,
+      this.title,
+      @required this.searchParameters})
+      : super(key: key);
 
   @override
   _ResultPageState createState() => _ResultPageState();
@@ -36,33 +41,60 @@ class _ResultPageState extends State<ResultPage> {
         title: Text(widget.title),
       ),
       body: Form(
-        key: _formKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text('Results for: ' +
-                widget.searchParameters.departurePoint +
-                ' - ' +
-                widget.searchParameters.destinationPoint),
-            ButtonBar(children: <Widget>[
-              FlatButton(
-                child: Text('Show map'),
-                onPressed: () {},
-              ),
-            ]),
-            FutureBuilder<List<HikeOption>>(
-                future: widget.hikeOptionProvider.fetchHikeOptions(
-                    widget.searchParameters.departurePointId, widget.searchParameters.destinationPointId),
-                builder: (context, snapshot) {
-                  if (snapshot.hasError) print(snapshot.error);
+          key: _formKey,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 5),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                    padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    decoration: new BoxDecoration(color: Color(0xFF445B18)),
+                    child: RichText(
+                        text: TextSpan(
+                            style: TextStyle(fontWeight: FontWeight.normal),
+                            children: <TextSpan>[
+                          TextSpan(
+                              text: 'Results for: ',
+                              style: TextStyle(color: Color(0xFEFDD124))),
+                          TextSpan(
+                              text: widget.searchParameters.departurePoint,
+                              style: TextStyle(fontWeight: FontWeight.bold)),
+                          TextSpan(
+                              text: ' - ',
+                              style: TextStyle(color: Color(0xFEFDD124))),
+                          TextSpan(
+                              text: widget.searchParameters.destinationPoint,
+                              style: TextStyle(fontWeight: FontWeight.bold))
+                        ]))),
+                ButtonBar(children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    child: RaisedButton(
+                      child: Text('Show map (todo)',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              backgroundColor: Color(0xFF445B18))),
+                      onPressed: () {},
+                    ),
+                  )
+                ]),
+                FutureBuilder<List<HikeOption>>(
+                    future: widget.hikeOptionProvider.fetchHikeOptions(
+                        widget.searchParameters.departurePointId,
+                        widget.searchParameters.destinationPointId),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasError) print(snapshot.error);
 
-                  return snapshot.hasData
-                      ? Expanded(child: HikeOptionsList(hikeOptions: snapshot.data))
-                      : Center(child: CircularProgressIndicator());
-                }),
-          ],
-        ),
-      ),
+                      return snapshot.hasData
+                          ? Expanded(
+                              child:
+                                  HikeOptionsList(hikeOptions: snapshot.data))
+                          : Center(child: CircularProgressIndicator());
+                    }),
+              ],
+            ),
+          )),
     );
   }
 }
