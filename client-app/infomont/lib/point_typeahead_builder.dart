@@ -4,8 +4,8 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'db_provider.dart';
 import 'point.dart';
 
-TypeAheadFormField<Point> buildPointTypeAheadField(
-    String label, TextEditingController typeAheadController, onSelect(int id, String name)) {
+TypeAheadFormField<Point> buildPointTypeAheadField(String label,
+    TextEditingController typeAheadController, onSelect(int id, String name)) {
   return TypeAheadFormField<Point>(
       textFieldConfiguration: TextFieldConfiguration(
           controller: typeAheadController,

@@ -25,8 +25,10 @@ class StartPage extends StatefulWidget {
 
 class _StartPageState extends State<StartPage> {
   final _formKey = GlobalKey<FormState>(debugLabel: 'MainForm');
-  final TextEditingController _startingPointTypeAheadController = TextEditingController();
-  final TextEditingController _endPointTypeAheadController = TextEditingController();
+  final TextEditingController _startingPointTypeAheadController =
+      TextEditingController();
+  final TextEditingController _endPointTypeAheadController =
+      TextEditingController();
   String _startingPointName = '';
   String _endPointName = '';
   int _startingPointId = -1;
@@ -90,15 +92,17 @@ class _StartPageState extends State<StartPage> {
                     children: <Widget>[
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 4.0),
-                        child: buildPointTypeAheadField('Starting point', this._startingPointTypeAheadController,
-                            (id, name) {
+                        child: buildPointTypeAheadField('Starting point',
+                            this._startingPointTypeAheadController, (id, name) {
                           this._startingPointId = id;
                           this._startingPointName = name;
                         }),
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 4.0),
-                        child: buildPointTypeAheadField('End point', this._endPointTypeAheadController, (id, name) {
+                        child: buildPointTypeAheadField(
+                            'End point', this._endPointTypeAheadController,
+                            (id, name) {
                           this._endPointId = id;
                           this._endPointName = name;
                         }),
@@ -122,7 +126,10 @@ class _StartPageState extends State<StartPage> {
                                   hikeOptionProvider: HikeOptionDbProvider(),
                                   title: 'Results',
                                   searchParameters: HikeOptionSearchParameters(
-                                      _startingPointId, _startingPointName, _endPointId, _endPointName),
+                                      _startingPointId,
+                                      _startingPointName,
+                                      _endPointId,
+                                      _endPointName),
                                 ),
                               ),
                             );

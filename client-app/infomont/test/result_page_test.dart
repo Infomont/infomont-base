@@ -15,18 +15,24 @@ Widget buildTestableWidget(Widget widget) {
 }
 
 void main() {
-  testWidgets('Displays progress indicator before showing results', (WidgetTester tester) async {
+  testWidgets('Displays progress indicator before showing results',
+      (WidgetTester tester) async {
     var hikeOptionProvider = HikeOptionJsonProvider(JsonAdapter());
     await tester.pumpWidget(buildTestableWidget(ResultPage(
         hikeOptionProvider: hikeOptionProvider,
-        searchParameters: HikeOptionSearchParameters(4711, 'random departure pt', 0815, 'random destination pt'), // arbitrary ids
+        searchParameters: HikeOptionSearchParameters(
+            4711,
+            'random departure pt',
+            0815,
+            'random destination pt'), // arbitrary ids
         title: 'Not interesting - Results Page Title')));
 
     final progressIndicatorFinder = find.byType(CircularProgressIndicator);
     expect(progressIndicatorFinder, findsOneWidget);
   });
 
-  testWidgets('Displays 3 different route options', (WidgetTester tester) async {
+  testWidgets('Displays 3 different route options',
+      (WidgetTester tester) async {
     final route1Text = 'Route 1: Test';
     final route2Text = 'Route 2: Test';
     final route3Text = 'Route 3: Test';
@@ -37,7 +43,11 @@ void main() {
     var hikeOptionProvider = HikeOptionProviderStub(result, JsonAdapter());
     await tester.pumpWidget(buildTestableWidget(ResultPage(
         hikeOptionProvider: hikeOptionProvider,
-        searchParameters: HikeOptionSearchParameters(4711, 'random departure pt', 0815, 'random destination pt'), // arbitrary ids
+        searchParameters: HikeOptionSearchParameters(
+            4711,
+            'random departure pt',
+            0815,
+            'random destination pt'), // arbitrary ids
         title: 'Not interesting - Results Page Title')));
     await tester.pumpAndSettle();
 
@@ -48,11 +58,13 @@ void main() {
 }
 
 class HikeOptionProviderStub extends HikeOptionJsonProvider {
-  HikeOptionProviderStub(this.hikeOptions, JsonAdapter jsonAdapter) : super(jsonAdapter);
+  HikeOptionProviderStub(this.hikeOptions, JsonAdapter jsonAdapter)
+      : super(jsonAdapter);
   final List<HikeOption> hikeOptions;
 
   @override
-  Future<List<HikeOption>> fetchHikeOptions(int departurePointId, int destinationPointId) async {
+  Future<List<HikeOption>> fetchHikeOptions(
+      int departurePointId, int destinationPointId) async {
     return this.hikeOptions;
   }
 }

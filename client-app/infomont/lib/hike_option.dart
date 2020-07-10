@@ -33,7 +33,6 @@ class HikeOption {
   }
 
   factory HikeOption.fromDatabase(Map<String, dynamic> entry) {
-
     var marksQuality = entry['MarksQuality'] as String;
     var marksQualityStars = formatMarksQuality(marksQuality);
 
@@ -49,17 +48,21 @@ class HikeOption {
   }
 
   // CAREFUL: Duplicated code with db_provider.dart
-  static String formatMarksQuality(var marksQuality){
-    switch (marksQuality){
-      case 'Inexistent' : return '*';
-      case 'Foarte rar' : return '**';
-      case 'Deteriorat' : return '***';
-      case 'Bun' : return '****';
-      case 'Foarte bun' : return '*****';
+  static String formatMarksQuality(var marksQuality) {
+    switch (marksQuality) {
+      case 'Inexistent':
+        return '*';
+      case 'Foarte rar':
+        return '**';
+      case 'Deteriorat':
+        return '***';
+      case 'Bun':
+        return '****';
+      case 'Foarte bun':
+        return '*****';
     }
     return marksQuality;
   }
-
 
   @override
   bool operator ==(Object other) => // TODO: a deep equals would be cleaner...

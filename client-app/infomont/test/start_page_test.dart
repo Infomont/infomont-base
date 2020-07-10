@@ -21,8 +21,9 @@ void main() {
     await tester.pumpWidget(buildTestableWidget(StartPage(title: '')));
 
     expect(
-        find.byWidgetPredicate(
-            (Widget widget) => widget is TextField && widget.decoration.labelText == "Starting point"),
+        find.byWidgetPredicate((Widget widget) =>
+            widget is TextField &&
+            widget.decoration.labelText == "Starting point"),
         findsOneWidget,
         reason: 'There is one TextField with "Starting point" text');
   });
@@ -31,7 +32,9 @@ void main() {
     // Build our app and trigger a frame.
     await tester.pumpWidget(buildTestableWidget(StartPage(title: '')));
 
-    expect(find.byWidgetPredicate((Widget widget) => widget is TextField && widget.decoration.labelText == 'End point'),
+    expect(
+        find.byWidgetPredicate((Widget widget) =>
+            widget is TextField && widget.decoration.labelText == 'End point'),
         findsOneWidget,
         reason: 'There is one TextFormField with "End point" text');
   });

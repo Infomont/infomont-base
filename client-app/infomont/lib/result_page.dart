@@ -48,7 +48,8 @@ class _ResultPageState extends State<ResultPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Container(
-                    padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                     decoration: new BoxDecoration(color: Color(0xFF445B18)),
                     child: RichText(
                         text: TextSpan(

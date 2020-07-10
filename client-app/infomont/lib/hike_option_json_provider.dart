@@ -9,7 +9,8 @@ class HikeOptionJsonProvider implements HikeOptionProvider {
 
   const HikeOptionJsonProvider(this.jsonAdapter);
 
-  Future<List<HikeOption>> fetchHikeOptions(int departurePointId, int destinationPointId) async {
+  Future<List<HikeOption>> fetchHikeOptions(
+      int departurePointId, int destinationPointId) async {
     final json = await jsonAdapter.fetchJson();
     // Use the compute function to run parsePhotos in a separate isolate.
     return parseHikeOptions(json);
@@ -17,6 +18,8 @@ class HikeOptionJsonProvider implements HikeOptionProvider {
 
   Future<List<HikeOption>> parseHikeOptions(String responseBody) async {
     final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
-    return parsed.map<HikeOption>((element) => HikeOption.fromJson(element)).toList();
+    return parsed
+        .map<HikeOption>((element) => HikeOption.fromJson(element))
+        .toList();
   }
 }
