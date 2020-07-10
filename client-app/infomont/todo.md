@@ -1,6 +1,8 @@
-- Fix DB Query
-- Improve UI/Layout
-- Create Splash Screen
-- Change App Icon, Change App Name
-- Implement App Theme (Color Pallet)
+- Replace marks within description with mark images
+- Show default English text description
+- Create correct data for the portions
+- Find a way to create hike options description
+- Add language parameter to the app for the descriptions
 - Integrate Map Visualization
+- Create the screen for the hike option details
+- Show the hike option details on the map

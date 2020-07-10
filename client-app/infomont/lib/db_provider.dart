@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:developer' as developer;
 import 'dart:typed_data';
 
+import 'package:app/InfomontImage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path/path.dart';
@@ -38,8 +39,10 @@ class DBProvider {
       } catch (_) {}
 
       // Copy from asset
-      ByteData data = await rootBundle.load(join("assets", "db", "infomont.db"));
-      List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+      ByteData data =
+          await rootBundle.load(join("assets", "db", "infomont.db"));
+      List<int> bytes =
+          data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
 
       // Write and flush the bytes written
       await File(path).writeAsBytes(bytes, flush: true);
@@ -59,14 +62,21 @@ class DBProvider {
     final db = await database;
 
     var result = await db.query("Point",
-        columns: ["ID", "Name", "Description"], where: "Name like ?", whereArgs: [searchText], limit: 5);
-    return result.isNotEmpty ? result.map((o) => Point.fromDatabase(o)).toList() : [];
+        columns: ["ID", "Name", "Description"],
+        where: "Name like ?",
+        whereArgs: [searchText],
+        limit: 5);
+    return result.isNotEmpty
+        ? result.map((o) => Point.fromDatabase(o)).toList()
+        : [];
   }
 
-  Future<List<HikeOption>> getHikeOptions(int departurePointId, int destinationPointId) async {
+  Future<List<HikeOption>> getHikeOptions(
+      int departurePointId, int destinationPointId) async {
     List<HikeOption> hikeOptions = new List<HikeOption>();
 
-    List<PortionDetail> portionDetails = await getPortionDetails(departurePointId, destinationPointId);
+    List<PortionDetail> portionDetails =
+        await getPortionDetails(departurePointId, destinationPointId);
 
     var portionDetailsByTrackId = new Map<int, List<PortionDetail>>();
 
@@ -74,7 +84,8 @@ class DBProvider {
 
     for (var portionDetail in portionDetails) {
       if (!portionDetailsByTrackId.containsKey(portionDetail.cacheTrekId)) {
-        portionDetailsByTrackId[portionDetail.cacheTrekId] = new List<PortionDetail>();
+        portionDetailsByTrackId[portionDetail.cacheTrekId] =
+            new List<PortionDetail>();
       }
 
       portionDetailsByTrackId[portionDetail.cacheTrekId].add(portionDetail);
@@ -86,22 +97,27 @@ class DBProvider {
 
       int durationSum = 0;
       var notDuplicatedMarks = new Set<String>();
+      var notDuplicatedMarksImages = new Set<InfomontImage>();
       var notDuplicatedMarkStates = new Set<String>();
       for (var portionDetail in currentTrackPortionDetails) {
         durationSum += portionDetail.duration;
         notDuplicatedMarks.add(portionDetail.mark);
-        notDuplicatedMarkStates.add(formatMarksQuality(portionDetail.markState));
+        notDuplicatedMarksImages.add(portionDetail.markImage);
+        notDuplicatedMarkStates
+            .add(formatMarksQuality(portionDetail.markState));
       }
 
       HikeOption hikeOption = new HikeOption();
       hikeOption.optionName = currentTrackPortionDetails[0].startPointName +
           ' - ' +
-          currentTrackPortionDetails[currentTrackPortionDetails.length - 1].destinationPointName;
+          currentTrackPortionDetails[currentTrackPortionDetails.length - 1]
+              .destinationPointName;
       hikeOption.optionNumber = optionNumber;
       hikeOption.duration = 0;
       hikeOption.shortDescription = currentTrackPortionDetails[0].description;
       hikeOption.duration = getTimeString(durationSum);
       hikeOption.marks = notDuplicatedMarks.join(', ');
+      hikeOption.markImages = notDuplicatedMarksImages;
       hikeOption.marksQuality = notDuplicatedMarkStates.join(', ');
       hikeOptions.add(hikeOption);
     }
@@ -110,19 +126,21 @@ class DBProvider {
   }
 
 // CAREFUL: Duplicated code with hike_option.dart
-  static String formatMarksQuality(var marksQuality){
-    switch (marksQuality){
-      case 'Inexistent' : return '☆';
-      case 'Foarte rar' : return '☆☆';
-      case 'Deteriorat' : return '☆☆☆';
-      case 'Bun' : return '☆☆☆☆';
-      case 'Foarte bun' : return '☆☆☆☆☆';
+  static String formatMarksQuality(var marksQuality) {
+    switch (marksQuality) {
+      case 'Inexistent':
+        return '☆';
+      case 'Foarte rar':
+        return '☆☆';
+      case 'Deteriorat':
+        return '☆☆☆';
+      case 'Bun':
+        return '☆☆☆☆';
+      case 'Foarte bun':
+        return '☆☆☆☆☆';
     }
     return marksQuality;
   }
-
-
-
 
   String getTimeString(int value) {
     final int hour = value ~/ 60;
@@ -130,13 +148,14 @@ class DBProvider {
     return '${hour.toString()} hours ${minutes.toString().padLeft(2, "0")} minutes';
   }
 
-  Future<List<PortionDetail>> getPortionDetails(int departurePointId, int destinationPointId) async {
+  Future<List<PortionDetail>> getPortionDetails(
+      int departurePointId, int destinationPointId) async {
     final db = await database;
 
     final queryString = '''
     Select StartPoint.Name || ' - ' || DestinationPoint.Name as PortionName,
     StartPoint.Name as StartPointName, DestinationPoint.Name as DestinationPointName,
-    Portion.Duration, MarkType.Name as Mark, MarkState.Description as MarkState,
+    Portion.Duration, MarkType.Name as Mark, MarkImages.Image as MarkImage, MarkState.Description as MarkState,
     Portion.Description, CTP.CacheTrekID as CacheTrekId
     from Cache_Trek_Portions CTP
     inner join Portion
@@ -147,6 +166,8 @@ class DBProvider {
     on Portion.DestinationPointID = DestinationPoint.ID
     Inner Join MarkType
     On Portion.MarkType = MarkType.ID
+    Inner Join MarkImages
+    On Portion.MarkType = MarkImages.ID
     Inner Join MarkState
     On Portion.MarkState = MarkState.ID
     Where CTP.CacheTrekID in (
@@ -165,7 +186,9 @@ class DBProvider {
 
     if (result.isEmpty) return [];
 
-    return result.isNotEmpty ? result.map((o) => PortionDetail.fromDatabase(o)).toList() : [];
+    return result.isNotEmpty
+        ? result.map((o) => PortionDetail.fromDatabase(o)).toList()
+        : [];
   }
 
   Future<List<Point>> searchPointByName(String searchPointName) async {
@@ -179,6 +202,8 @@ class DBProvider {
     ''';
 
     var result = await db.rawQuery(getPointsForAutocompleteQuerry);
-    return result.isNotEmpty ? result.map((o) => Point.fromDatabase(o)).toList() : [];
+    return result.isNotEmpty
+        ? result.map((o) => Point.fromDatabase(o)).toList()
+        : [];
   }
 }

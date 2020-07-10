@@ -4,6 +4,7 @@ class HikeOption {
   var duration;
   var shortDescription;
   var marks;
+  var markImages;
   var marksQuality;
   var startPoint;
   var destinationPoint;
