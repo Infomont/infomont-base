@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 class InfomontImage {
   var id;
   var image;

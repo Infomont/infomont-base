@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 import 'InfomontImage.dart';
 import 'hike_option.dart';
-import 'marks_formatter.dart';
 
 class HikeOptionWidget extends StatelessWidget {
   final hikeOption;
@@ -71,6 +70,8 @@ class HikeOptionWidget extends StatelessWidget {
                             TextSpan(
                                 text: '${hikeOption.shortDescription}',
                                 style: TextStyle(color: Color(0xFFE0E2DB))),
+                            TextSpan(children: convertToDescriptionWithMarks(hikeOption.shortDescription, hikeOption.markImages),
+                              style: TextStyle(color: Color(0xFFE0E2DB)),)
                           ],
                         ),
                       ),
@@ -113,5 +114,18 @@ class HikeOptionWidget extends StatelessWidget {
         .map((e) => TextSpan(
             children: [WidgetSpan(child: e.image), TextSpan(text: ' ')]))
         .toList();
+  }
+
+  convertToDescriptionWithMarks(shortDescription, Iterable<InfomontImage> markImages) {
+    var result = List<InlineSpan>();
+
+    //var regexPattern = get only the image codes that we expect instead all the images in the pattern below
+
+    // pattern = RegExp("BA|BG|BR|PA|PG|PR|TA|TG|TR|CA|CG|CA") /
+    // matches = pattern.allMatches(shortDescription)
+    // for (match in matches) result.add( isCode(match) ? WidgetSpan(image) : TextSpan(match) )
+
+    result.add(TextSpan(text: shortDescription ));
+    return result;
   }
 }

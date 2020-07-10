@@ -155,7 +155,7 @@ class DBProvider {
     final queryString = '''
     Select StartPoint.Name || ' - ' || DestinationPoint.Name as PortionName,
     StartPoint.Name as StartPointName, DestinationPoint.Name as DestinationPointName,
-    Portion.Duration, MarkType.Name as Mark, MarkImages.Image as MarkImage, MarkState.Description as MarkState,
+    Portion.Duration, MarkImages.MarkCode as MarkCode, MarkImages.Image as MarkImage, MarkState.Description as MarkState,
     Portion.Description, CTP.CacheTrekID as CacheTrekId
     from Cache_Trek_Portions CTP
     inner join Portion

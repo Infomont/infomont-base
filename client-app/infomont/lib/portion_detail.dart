@@ -30,8 +30,8 @@ class PortionDetail {
         startPointName: entry['StartPointName'] as String,
         destinationPointName: entry['DestinationPointName'] as String,
         duration: entry['Duration'] as int, // TODO: convert to int
-        mark: entry['Mark'] as String,
-        markImage: InfomontImage(entry['Mark'] as String,
+        mark: entry['MarkCode'] as String,
+        markImage: InfomontImage(entry['MarkCode'] as String,
             Image.memory(entry['MarkImage'], scale: 2.0)),
         markState: entry['MarkState'] as String,
         description: entry['Description'] as String,

@@ -1,3 +1,7 @@
+- Watch out for pairing style (driver driving on it's own, vs being navigated)
+- Discuss if we want to focus on result or learning.
+
+
 - Replace marks within description with mark images
 - Show default English text description
 - Create correct data for the portions
