@@ -29,6 +29,7 @@ class HikeOption {
         duration: json['duration'] as String,
         shortDescription: json['shortDescription'] as String,
         marks: json['marks'] as String,
+        // marksImages: json[]
         marksQuality: marksQualityStars);
   }
 
