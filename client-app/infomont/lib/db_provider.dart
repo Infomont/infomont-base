@@ -119,10 +119,27 @@ class DBProvider {
       hikeOption.marks = notDuplicatedMarks.join(', ');
       hikeOption.markImages = notDuplicatedMarksImages;
       hikeOption.marksQuality = notDuplicatedMarkStates.join(', ');
+      hikeOption.allMarkImages = getAllMarkImages();
       hikeOptions.add(hikeOption);
     }
 
     return hikeOptions;
+  }
+
+  Future<List<InfomontImage>> getAllMarkImages() async{
+    final db = await database;
+
+    final queryString = '''
+    Select MarkCode as id, Image  
+    From MarkImages''';
+
+    var result = await db.rawQuery(queryString);
+
+    if (result.isEmpty) return [];
+
+    return result.isNotEmpty
+        ? result.map((o) => InfomontImage.fromDatabase(o)).toList()
+        : [];
   }
 
 // CAREFUL: Duplicated code with hike_option.dart

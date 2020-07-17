@@ -8,6 +8,7 @@ class HikeOption {
   var marksQuality;
   var startPoint;
   var destinationPoint;
+  var allMarkImages;
 
   HikeOption(
       {this.optionName,
@@ -17,7 +18,8 @@ class HikeOption {
       this.marks,
       this.marksQuality,
       this.startPoint,
-      this.destinationPoint});
+      this.destinationPoint,
+      this.allMarkImages});
 
   factory HikeOption.fromJson(Map<String, dynamic> json) {
     var marksQuality = json['marksQuality'] as String;

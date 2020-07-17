@@ -85,7 +85,8 @@ class _ResultPageState extends State<ResultPage> {
                         widget.searchParameters.departurePointId,
                         widget.searchParameters.destinationPointId),
                     builder: (context, snapshot) {
-                      if (snapshot.hasError) print(snapshot.error);
+                      if (snapshot.hasError)
+                        print(snapshot.error);
 
                       return snapshot.hasData
                           ? Expanded(

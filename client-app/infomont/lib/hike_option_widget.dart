@@ -61,17 +61,26 @@ class HikeOptionWidget extends StatelessWidget {
                       RichText(
                         text: TextSpan(
                           style: DefaultTextStyle.of(context).style,
-                          children: <TextSpan>[
+                          children: <InlineSpan>[
                             TextSpan(
                                 text: 'Description: ',
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: Color(0xFEFDD124))),
-                            TextSpan(
-                                text: '${hikeOption.shortDescription}',
-                                style: TextStyle(color: Color(0xFFE0E2DB))),
-                            TextSpan(children: convertToDescriptionWithMarks(hikeOption.shortDescription, hikeOption.markImages),
-                              style: TextStyle(color: Color(0xFFE0E2DB)),)
+                            WidgetSpan(
+                              child: FutureBuilder<dynamic>(
+                              future: convertToDescriptionWithMarks(hikeOption.shortDescription, hikeOption.allMarkImages),
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasError)
+                                    print(snapshot.error);
+
+                                  return snapshot.hasData
+                                      ? RichText(text: TextSpan(
+                                    children: snapshot.data,
+                                    style: TextStyle(color: Color(0xFFE0E2DB)),))
+                                      : Center(child: CircularProgressIndicator());
+                                })
+                            ),
                           ],
                         ),
                       ),
@@ -116,16 +125,26 @@ class HikeOptionWidget extends StatelessWidget {
         .toList();
   }
 
-  convertToDescriptionWithMarks(shortDescription, Iterable<InfomontImage> markImages) {
+  convertToDescriptionWithMarks(String shortDescription, Future<List<InfomontImage>> allMarkImagesFuture) async {
     var result = List<InlineSpan>();
+    var allMarkImages = await allMarkImagesFuture;
 
-    //var regexPattern = get only the image codes that we expect instead all the images in the pattern below
+    String regexPattern = allMarkImages.map((element) => element.id.toString()).reduce((value, element) => value + "|" + element);
 
-    // pattern = RegExp("BA|BG|BR|PA|PG|PR|TA|TG|TR|CA|CG|CA") /
-    // matches = pattern.allMatches(shortDescription)
-    // for (match in matches) result.add( isCode(match) ? WidgetSpan(image) : TextSpan(match) )
+    var pattern = RegExp(regexPattern);
+    var matches = pattern.allMatches(shortDescription);
+    var lastMatchEnd = 0;
+    for (var match in matches) {
+         result.add(TextSpan(text: shortDescription.substring(lastMatchEnd, match.start)));
+      var matchedString = match.group(0);
+      lastMatchEnd = match.start + matchedString.length;
+      result.add(WidgetSpan(child: getImage(matchedString, allMarkImages)));
+    }
+    result.add(TextSpan(text: shortDescription.substring(lastMatchEnd)));
+    return  result;
+  }
 
-    result.add(TextSpan(text: shortDescription ));
-    return result;
+  getImage(match, List<InfomontImage> markImages) {
+    return markImages.firstWhere((mi) => mi.id == match.toString()).image;
   }
 }
