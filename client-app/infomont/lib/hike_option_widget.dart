@@ -129,6 +129,12 @@ class HikeOptionWidget extends StatelessWidget {
     var result = List<InlineSpan>();
     var allMarkImages = await allMarkImagesFuture;
 
+    if (allMarkImages.length == 0)
+      {
+        result.add(TextSpan(text: shortDescription));
+        return result;
+      }
+
     String regexPattern = allMarkImages.map((element) => element.id.toString()).reduce((value, element) => value + "|" + element);
 
     var pattern = RegExp(regexPattern);
