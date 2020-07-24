@@ -11,6 +11,7 @@ class PortionDetail {
   final markImage;
   final markState;
   final description;
+  final englishDescription;
   final cacheTrekId;
 
   PortionDetail(
@@ -22,6 +23,7 @@ class PortionDetail {
       this.markImage,
       this.markState,
       this.description,
+      this.englishDescription,
       this.cacheTrekId});
 
   factory PortionDetail.fromDatabase(Map<String, dynamic> entry) {
@@ -35,6 +37,7 @@ class PortionDetail {
             image: Image.memory(entry['MarkImage'], scale: 2.0)),
         markState: entry['MarkState'] as String,
         description: entry['Description'] as String,
+        englishDescription: entry['EnglishDescription'] as String,
         cacheTrekId: entry['CacheTrekId'] as int);
   }
 }

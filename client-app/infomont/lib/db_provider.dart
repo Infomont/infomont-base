@@ -114,7 +114,7 @@ class DBProvider {
               .destinationPointName;
       hikeOption.optionNumber = optionNumber;
       hikeOption.duration = 0;
-      hikeOption.shortDescription = currentTrackPortionDetails[0].description;
+      hikeOption.shortDescription = getDescription(currentTrackPortionDetails);
       hikeOption.duration = getTimeString(durationSum);
       hikeOption.marks = notDuplicatedMarks.join(', ');
       hikeOption.markImages = notDuplicatedMarksImages;
@@ -124,6 +124,13 @@ class DBProvider {
     }
 
     return hikeOptions;
+  }
+
+  String getDescription(List<PortionDetail> currentTrackPortionDetails) {
+    if(currentTrackPortionDetails[0].englishDescription == null) { // return english description if there is any
+      return  currentTrackPortionDetails[0].description;
+    }
+    return currentTrackPortionDetails[0].englishDescription;
   }
 
   Future<List<InfomontImage>> getAllMarkImages() async{
@@ -173,7 +180,7 @@ class DBProvider {
     Select StartPoint.Name || ' - ' || DestinationPoint.Name as PortionName,
     StartPoint.Name as StartPointName, DestinationPoint.Name as DestinationPointName,
     Portion.Duration, MarkImages.MarkCode as MarkCode, MarkImages.Image as MarkImage, MarkState.Description as MarkState,
-    Portion.Description, CTP.CacheTrekID as CacheTrekId
+    Portion.Description, CTP.CacheTrekID as CacheTrekId, PortionInt.Text as EnglishDescription, PortionInt.IdLang
     from Cache_Trek_Portions CTP
     inner join Portion
     on Portion.ID = CTP.IDPortion
@@ -187,6 +194,9 @@ class DBProvider {
     On Portion.MarkType = MarkImages.ID
     Inner Join MarkState
     On Portion.MarkState = MarkState.ID
+    Left Outer Join PortionInt
+    On PortionInt.IDField = Portion.ID
+    And PortionInt.IdLang = (Select Id from Language where Language.LanguageParticle == "en-GB")
     Where CTP.CacheTrekID in (
     Select CT.ID as CacheTrekID from Cache_Trek CT
     inner join point as DeparturePoint
