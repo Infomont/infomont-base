@@ -1,4 +1,4 @@
-import 'package:app/json_adapter.dart';
+import 'database/json_adapter.dart';
 
 class JsonAdapterStub extends JsonAdapter {
   JsonAdapterStub();

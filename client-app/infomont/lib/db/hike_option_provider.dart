@@ -1,4 +1,4 @@
-import 'hike_option.dart';
+import '../entities/hike_option.dart';
 
 class HikeOptionProvider {
   Future<List<HikeOption>> fetchHikeOptions(

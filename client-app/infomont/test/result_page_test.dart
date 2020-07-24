@@ -1,13 +1,11 @@
 import 'dart:async';
-
-import 'package:app/hike_option.dart';
-import 'package:app/hike_option_json_provider.dart';
-import 'package:app/hike_option_search_parameters.dart';
-import 'package:app/json_adapter.dart';
+import 'package:app/entities/hike_option.dart';
+import 'package:app/entities/hike_option_search_parameters.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:app/result_page.dart';
+import 'package:app/pages/result_page.dart';
+import 'database/hike_option_json_provider.dart';
+import 'database/json_adapter.dart';
 
 // TODO: extract to helper file
 Widget buildTestableWidget(Widget widget) {

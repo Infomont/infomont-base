@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
-import 'db_provider.dart';
-import 'point.dart';
+import 'db/db_provider.dart';
+import 'entities/point.dart';
 
 TypeAheadFormField<Point> buildPointTypeAheadField(String label,
     TextEditingController typeAheadController, onSelect(int id, String name)) {

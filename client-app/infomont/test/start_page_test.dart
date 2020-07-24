@@ -8,7 +8,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:app/start_page.dart';
+import 'package:app/pages/start_page.dart';
 
 // TODO: extract to helper file
 Widget buildTestableWidget(Widget widget) {

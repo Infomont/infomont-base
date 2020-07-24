@@ -1,7 +1,6 @@
 import 'dart:convert';
-
-import 'hike_option.dart';
-import 'hike_option_provider.dart';
+import 'package:app/db/hike_option_provider.dart';
+import 'package:app/entities/hike_option.dart';
 import 'json_adapter.dart';
 
 class HikeOptionJsonProvider implements HikeOptionProvider {

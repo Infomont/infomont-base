@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-import 'InfomontImage.dart';
+import 'infomont_image.dart';
 
 class PortionDetail {
   final portionName;

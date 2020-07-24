@@ -1,7 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:app/hike_option.dart';
-import 'package:app/hike_option_json_provider.dart';
+import 'package:app/entities/hike_option.dart';
+import 'database/hike_option_json_provider.dart';
 import 'json_adapter_stub.dart';
 
 // language=JSON

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'hike_option_db_provider.dart';
-import 'hike_option_search_parameters.dart';
-import 'point_typeahead_builder.dart';
+import '../db/hike_option_db_provider.dart';
+import '../entities/hike_option_search_parameters.dart';
+import '../point_typeahead_builder.dart';
 import 'result_page.dart';
 
 class StartPage extends StatefulWidget {

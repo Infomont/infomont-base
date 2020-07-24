@@ -2,8 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-import 'InfomontImage.dart';
-import 'hike_option.dart';
+import '../entities/infomont_image.dart';
+import '../entities/hike_option.dart';
 
 class HikeOptionWidget extends StatelessWidget {
   final hikeOption;

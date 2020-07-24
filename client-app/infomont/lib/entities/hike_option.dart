@@ -1,4 +1,4 @@
-import 'InfomontImage.dart';
+import 'infomont_image.dart';
 
 class HikeOption {
   var optionName;
