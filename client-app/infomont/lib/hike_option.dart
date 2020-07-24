@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-
 import 'InfomontImage.dart';
 
 class HikeOption {

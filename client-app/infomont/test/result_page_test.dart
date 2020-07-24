@@ -41,20 +41,32 @@ void main() {
     result.add(HikeOption(optionName: route2Text));
     result.add(HikeOption(optionName: route3Text));
     var hikeOptionProvider = HikeOptionProviderStub(result, JsonAdapter());
-    await tester.pumpWidget(buildTestableWidget(ResultPage(
+    var resultPage = ResultPage(
         hikeOptionProvider: hikeOptionProvider,
         searchParameters: HikeOptionSearchParameters(
             4711,
             'random departure pt',
             0815,
             'random destination pt'), // arbitrary ids
-        title: 'Not interesting - Results Page Title')));
+        title: 'Not interesting - Results Page Title');
+    await tester.pumpWidget(buildTestableWidget(resultPage));
     await tester.pumpAndSettle();
 
-    expect(find.text(route1Text), findsOneWidget);
-    expect(find.text(route2Text), findsOneWidget);
-    expect(find.text(route3Text), findsOneWidget);
+    expect(find.byWidgetPredicate((widget) => fromRichTextToPlainText(widget).contains(route1Text)), findsOneWidget);
+    expect(find.byWidgetPredicate((widget) => fromRichTextToPlainText(widget).contains(route2Text)), findsOneWidget);
+    expect(find.byWidgetPredicate((widget) => fromRichTextToPlainText(widget).contains(route3Text)), findsOneWidget);
   });
+}
+
+String fromRichTextToPlainText(final Widget widget) { // taken from https://stackoverflow.com/a/60791156/3067733
+  if (widget is RichText) {
+    if (widget.text is TextSpan) {
+      final buffer = StringBuffer();
+      (widget.text as TextSpan).computeToPlainText(buffer);
+      return buffer.toString();
+    }
+  }
+  return "";
 }
 
 class HikeOptionProviderStub extends HikeOptionJsonProvider {
