@@ -1,3 +1,4 @@
+import 'package:app/db/abstract_db_provider.dart';
 import 'package:flutter/material.dart';
 
 import 'package:app/widgets/show_about_dialog_button_widget.dart';
@@ -7,7 +8,9 @@ import '../point_typeahead_builder.dart';
 import 'result_page.dart';
 
 class StartPage extends StatefulWidget {
-  StartPage({Key key, this.title}) : super(key: key);
+  final dbProvider;
+
+  StartPage({Key key, this.title, this.dbProvider}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -21,7 +24,7 @@ class StartPage extends StatefulWidget {
   final String title;
 
   @override
-  _StartPageState createState() => _StartPageState();
+  _StartPageState createState() => _StartPageState(this.dbProvider);
 }
 
 class _StartPageState extends State<StartPage> {
@@ -34,6 +37,10 @@ class _StartPageState extends State<StartPage> {
   String _endPointName = '';
   int _startingPointId = -1;
   int _endPointId = -1;
+
+  final dbProvider;
+
+  _StartPageState(this.dbProvider);
 
   @override
   Widget build(BuildContext context) {
@@ -80,20 +87,27 @@ class _StartPageState extends State<StartPage> {
                     children: <Widget>[
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 4.0),
-                        child: buildPointTypeAheadField('Starting point',
-                            this._startingPointTypeAheadController, (id, name) {
-                          this._startingPointId = id;
-                          this._startingPointName = name;
-                        }),
+                        child: buildPointTypeAheadField(
+                          'Starting point',
+                          this._startingPointTypeAheadController,
+                          (id, name) {
+                              this._startingPointId = id;
+                              this._startingPointName = name;
+                          },
+                          this.dbProvider,
+                        ),
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 4.0),
                         child: buildPointTypeAheadField(
-                            'End point', this._endPointTypeAheadController,
+                            'End point',
+                            this._endPointTypeAheadController,
                             (id, name) {
-                          this._endPointId = id;
-                          this._endPointName = name;
-                        }),
+                              this._endPointId = id;
+                              this._endPointName = name;
+                            },
+                            this.dbProvider,
+                        ),
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -111,13 +125,14 @@ class _StartPageState extends State<StartPage> {
                               MaterialPageRoute(
                                 // TODO: figure out how we can construct ResultsPage with searchParameters
                                 builder: (context) => ResultPage(
-                                  hikeOptionProvider: HikeOptionDbProvider(),
+                                  hikeOptionProvider: HikeOptionDbProvider(this.dbProvider),
                                   title: 'Results',
                                   searchParameters: HikeOptionSearchParameters(
                                       _startingPointId,
                                       _startingPointName,
                                       _endPointId,
                                       _endPointName),
+                                  dbProvider: dbProvider,
                                 ),
                               ),
                             );

@@ -1,11 +1,16 @@
+import 'package:app/db/point_db_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
+import 'db/abstract_db_provider.dart';
 import 'db/db_provider.dart';
 import 'entities/point.dart';
 
-TypeAheadFormField<Point> buildPointTypeAheadField(String label,
-    TextEditingController typeAheadController, onSelect(int id, String name)) {
+TypeAheadFormField<Point> buildPointTypeAheadField(
+    String label,
+    TextEditingController typeAheadController,
+    onSelect(int id, String name),
+    IDBProvider dbProvider) {
   return TypeAheadFormField<Point>(
       textFieldConfiguration: TextFieldConfiguration(
           controller: typeAheadController,
@@ -15,7 +20,7 @@ TypeAheadFormField<Point> buildPointTypeAheadField(String label,
             labelStyle: TextStyle(color: Colors.grey),
           )),
       suggestionsCallback: (pattern) {
-        return DBProvider.db.searchPointByName(pattern);
+        return PointDbProvider(dbProvider).searchPointByName(pattern);
       },
       itemBuilder: (context, suggestion) {
         return ListTile(

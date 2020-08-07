@@ -10,11 +10,15 @@ class ResultPage extends StatefulWidget {
   final HikeOptionProvider hikeOptionProvider;
   final HikeOptionSearchParameters searchParameters;
 
+  final dbProvider;
+
   ResultPage(
       {this.hikeOptionProvider,
       Key key,
       this.title,
-      @required this.searchParameters})
+      this.searchParameters,
+      this.dbProvider
+      })
       : super(key: key);
 
   @override
