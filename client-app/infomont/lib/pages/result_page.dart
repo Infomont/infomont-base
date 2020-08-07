@@ -2,6 +2,7 @@ import 'package:app/db/hike_option_provider.dart';
 import 'package:app/entities/hike_option.dart';
 import 'package:app/entities/hike_option_search_parameters.dart';
 import 'package:app/widgets/hike_option_widget.dart';
+import 'package:app/widgets/show_about_dialog_button_widget.dart';
 import 'package:flutter/material.dart';
 
 class ResultPage extends StatefulWidget {
@@ -96,6 +97,9 @@ class _ResultPageState extends State<ResultPage> {
               ],
             ),
           )),
+      persistentFooterButtons: <Widget>[
+        ShowAboutDialogButton()
+      ],
     );
   }
 }

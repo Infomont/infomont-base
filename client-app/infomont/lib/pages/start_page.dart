@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:app/widgets/show_about_dialog_button_widget.dart';
 import '../db/hike_option_db_provider.dart';
 import '../entities/hike_option_search_parameters.dart';
 import '../point_typeahead_builder.dart';
@@ -33,19 +34,6 @@ class _StartPageState extends State<StartPage> {
   String _endPointName = '';
   int _startingPointId = -1;
   int _endPointId = -1;
-
-  /*
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-   */
 
   @override
   Widget build(BuildContext context) {
@@ -145,6 +133,9 @@ class _StartPageState extends State<StartPage> {
           ],
         ),
       ),
+      persistentFooterButtons: <Widget>[
+        ShowAboutDialogButton()
+      ],
     );
   }
 }
