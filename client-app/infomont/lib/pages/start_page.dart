@@ -123,7 +123,6 @@ class _StartPageState extends State<StartPage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                // TODO: figure out how we can construct ResultsPage with searchParameters
                                 builder: (context) => ResultPage(
                                   hikeOptionProvider: HikeOptionDbProvider(this.dbProvider),
                                   title: 'Results',
