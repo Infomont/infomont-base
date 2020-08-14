@@ -13,15 +13,20 @@ class HikeOption {
   var allMarkImages = Future<List<InfomontImage>>.sync(()=>List<InfomontImage>());
 
   HikeOption(
-      {this.optionName,
-      this.optionNumber,
-      this.duration,
-      this.shortDescription,
-      this.marks,
-      this.marksQuality,
-      this.startPoint,
-      this.destinationPoint,
-      });
+      {
+        this.optionName,
+        this.optionNumber,
+        this.duration,
+        this.shortDescription,
+        this.marks,
+        this.marksQuality,
+        this.startPoint,
+        this.destinationPoint,
+        Iterable<String> markStates,
+      })
+  {
+    marksQuality = markStates != null ? convertMarkStates(markStates) : null;
+  }
 
   factory HikeOption.fromJson(Map<String, dynamic> json) {
     var marksQuality = json['marksQuality'] as String;
@@ -36,8 +41,6 @@ class HikeOption {
         marksQuality: marksQualityStars);
   }
 
-
-  // CAREFUL: Duplicated code with db_provider.dart
   static String formatMarksQuality(var marksQuality) {
     switch (marksQuality) {
       case 'Inexistent':
@@ -63,4 +66,8 @@ class HikeOption {
 
   @override
   int get hashCode => marks.hashCode;
+
+  String convertMarkStates(Iterable<String> markStates) {
+    return markStates.map((markState) => formatMarksQuality(markState)).join(', ');
+  }
 }

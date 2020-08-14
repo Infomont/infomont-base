@@ -43,7 +43,7 @@ class HikeOptionDbProvider extends HikeOptionProvider { // TODO: Cleanup next!
         notDuplicatedMarks.add(portionDetail.mark);
         notDuplicatedMarksImages.add(portionDetail.markImage);
         notDuplicatedMarkStates
-            .add(formatMarksQuality(portionDetail.markState));
+            .add(portionDetail.markState);
       }
 
       HikeOption hikeOption = HikeOptionBuilder(dbProvider).buildHikeOption(currentTrackPortionDetails, optionNumber, durationSum, notDuplicatedMarks, notDuplicatedMarksImages, notDuplicatedMarkStates);
@@ -51,24 +51,6 @@ class HikeOptionDbProvider extends HikeOptionProvider { // TODO: Cleanup next!
     }
 
     return hikeOptions;
-  }
-
-
-  // CAREFUL: Duplicated code with hike_option.dart
-  static String formatMarksQuality(var marksQuality) {
-    switch (marksQuality) {
-      case 'Inexistent':
-        return '☆';
-      case 'Foarte rar':
-        return '☆☆';
-      case 'Deteriorat':
-        return '☆☆☆';
-      case 'Bun':
-        return '☆☆☆☆';
-      case 'Foarte bun':
-        return '☆☆☆☆☆';
-    }
-    return marksQuality;
   }
 
   Future<List<PortionDetail>> getPortionDetails(
