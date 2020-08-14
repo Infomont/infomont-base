@@ -1,9 +1,8 @@
 import 'dart:ui';
-
+import 'package:app/widgets/mark_images_helper.dart';
 import 'package:flutter/material.dart';
-
-import '../entities/infomont_image.dart';
 import '../entities/hike_option.dart';
+import 'hike_option_widget_helper.dart';
 
 class HikeOptionWidget extends StatelessWidget {
   final hikeOption;
@@ -69,7 +68,7 @@ class HikeOptionWidget extends StatelessWidget {
                                     color: Color(0xFEFDD124))),
                             WidgetSpan(
                               child: FutureBuilder<dynamic>(
-                              future: convertToDescriptionWithMarks(hikeOption.shortDescription, hikeOption.allMarkImages),
+                              future: HikeOptionWidgetHelper().convertToDescriptionWithMarks(hikeOption.shortDescription, hikeOption.allMarkImages),
                                 builder: (context, snapshot) {
                                   if (snapshot.hasError)
                                     print(snapshot.error);
@@ -94,7 +93,7 @@ class HikeOptionWidget extends StatelessWidget {
                                     fontWeight: FontWeight.bold,
                                     color: Color(0xFEFDD124))),
                             TextSpan(
-                              children: convertImagesToWidgetSpans(
+                              children: MarkImagesHelper(). convertImagesToWidgetSpans(
                                   hikeOption.markImages),
                             ),
                           ])),
@@ -116,41 +115,5 @@ class HikeOptionWidget extends StatelessWidget {
                     ])),
           ],
         ));
-  }
-
-  convertImagesToWidgetSpans(Iterable<InfomontImage> markImages) {
-    return markImages
-        .map((e) => TextSpan(
-            children: [WidgetSpan(child: e.image), TextSpan(text: ' ')]))
-        .toList();
-  }
-
-  convertToDescriptionWithMarks(String shortDescription, Future<List<InfomontImage>> allMarkImagesFuture) async {
-    var result = List<InlineSpan>();
-    var allMarkImages = await allMarkImagesFuture;
-
-    if (allMarkImages.length == 0)
-      {
-        result.add(TextSpan(text: shortDescription));
-        return result;
-      }
-
-    String regexPattern = allMarkImages.map((element) => element.id.toString()).reduce((value, element) => value + "|" + element);
-
-    var pattern = RegExp(regexPattern);
-    var matches = pattern.allMatches(shortDescription);
-    var lastMatchEnd = 0;
-    for (var match in matches) {
-         result.add(TextSpan(text: shortDescription.substring(lastMatchEnd, match.start)));
-      var matchedString = match.group(0);
-      lastMatchEnd = match.start + matchedString.length;
-      result.add(WidgetSpan(child: getImage(matchedString, allMarkImages)));
-    }
-    result.add(TextSpan(text: shortDescription.substring(lastMatchEnd)));
-    return  result;
-  }
-
-  getImage(match, List<InfomontImage> markImages) {
-    return markImages.firstWhere((mi) => mi.id == match.toString()).image;
   }
 }
