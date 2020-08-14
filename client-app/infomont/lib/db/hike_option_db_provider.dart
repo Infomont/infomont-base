@@ -29,6 +29,7 @@ class HikeOptionDbProvider extends HikeOptionProvider { // TODO: Cleanup next!
 
       portionDetailsByTrackId[portionDetail.cacheTrekId].add(portionDetail);
     }
+
     var optionNumber = 0;
     for (var entry in portionDetailsByTrackId.entries) {
       optionNumber++;
@@ -42,11 +43,16 @@ class HikeOptionDbProvider extends HikeOptionProvider { // TODO: Cleanup next!
         durationSum += portionDetail.duration;
         notDuplicatedMarks.add(portionDetail.mark);
         notDuplicatedMarksImages.add(portionDetail.markImage);
-        notDuplicatedMarkStates
-            .add(portionDetail.markState);
+        notDuplicatedMarkStates.add(portionDetail.markState);
       }
 
-      HikeOption hikeOption = HikeOptionBuilder(dbProvider).buildHikeOption(currentTrackPortionDetails, optionNumber, durationSum, notDuplicatedMarks, notDuplicatedMarksImages, notDuplicatedMarkStates);
+      HikeOption hikeOption = HikeOptionBuilder(dbProvider).buildHikeOption(
+          currentTrackPortionDetails,
+          optionNumber,
+          durationSum,
+          notDuplicatedMarks,
+          notDuplicatedMarksImages,
+          notDuplicatedMarkStates);
       hikeOptions.add(hikeOption);
     }
 

@@ -14,8 +14,8 @@ class HikeOptionBuilder {
   HikeOption buildHikeOption(List<PortionDetail> currentTrackPortionDetails,
       int optionNumber,
       int durationSum,
-      Set<String> notDuplicatedMarks,
-      Set<InfomontImage> notDuplicatedMarksImages,
+      Iterable<String> marks,
+      Iterable<InfomontImage> marksImages,
       Iterable<String> markStates) {
 
     HikeOption hikeOption = HikeOption(markStates: markStates);
@@ -25,8 +25,8 @@ class HikeOptionBuilder {
     hikeOption.duration = 0;
     hikeOption.shortDescription = getDescription(currentTrackPortionDetails);
     hikeOption.duration = getTimeString(durationSum);
-    hikeOption.marks = notDuplicatedMarks.join(', ');
-    hikeOption.markImages = notDuplicatedMarksImages;
+    hikeOption.marks = marks.join(', ');
+    hikeOption.markImages = marksImages;
     hikeOption.allMarkImages = markImageProvider.getAllMarkImages();
     return hikeOption;
   }
