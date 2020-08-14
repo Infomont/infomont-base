@@ -21,21 +21,7 @@ class HikeOptionWidget extends StatelessWidget {
         child: Column(
           children: <Widget>[
             ListTile(
-              title: RichText(
-                  text: TextSpan(
-                      style: DefaultTextStyle.of(context).style,
-                      children: <TextSpan>[
-                    TextSpan(
-                        text: '${hikeOption.optionNumber}: ',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w800,
-                            color: Color(0xFEFDD124))),
-                    TextSpan(
-                        text: hikeOption.optionName,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFEFDD124)))
-                  ])),
+              title: buildHikeOptionTitleText(context, optionNumber: hikeOption.optionNumber, optionName: hikeOption.optionName),
             ),
             Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 5),
@@ -43,77 +29,94 @@ class HikeOptionWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
-                      Container(
-                          child: RichText(
-                              text: TextSpan(
-                                  style: DefaultTextStyle.of(context).style,
-                                  children: <TextSpan>[
-                            TextSpan(
-                                text: 'Duration: ',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Color(0xFEFDD124))),
-                            TextSpan(
-                                text: '${hikeOption.duration}',
-                                style: TextStyle(color: Color(0xFFE0E2DB))),
-                          ]))),
-                      RichText(
-                        text: TextSpan(
-                          style: DefaultTextStyle.of(context).style,
-                          children: <InlineSpan>[
-                            TextSpan(
-                                text: 'Description: ',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Color(0xFEFDD124))),
-                            WidgetSpan(
-                              child: FutureBuilder<dynamic>(
-                              future: HikeOptionWidgetHelper().convertToDescriptionWithMarks(hikeOption.shortDescription, hikeOption.allMarkImages),
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasError)
-                                    print(snapshot.error);
-
-                                  return snapshot.hasData
-                                      ? RichText(text: TextSpan(
-                                    children: snapshot.data,
-                                    style: TextStyle(color: Color(0xFFE0E2DB)),))
-                                      : Center(child: CircularProgressIndicator());
-                                })
-                            ),
-                          ],
-                        ),
-                      ),
-                      RichText(
-                          text: TextSpan(
-                              style: DefaultTextStyle.of(context).style,
-                              children: [
-                            TextSpan(
-                                text: 'Marks: ',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Color(0xFEFDD124))),
-                            TextSpan(
-                              children: MarkImagesHelper(). convertImagesToWidgetSpans(
-                                  hikeOption.markImages),
-                            ),
-                          ])),
-                      RichText(
-                        text: TextSpan(
-                          style: DefaultTextStyle.of(context).style,
-                          children: <TextSpan>[
-                            TextSpan(
-                                text: 'Marks quality: ',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Color(0xFEFDD124))),
-                            TextSpan(
-                                text: '${hikeOption.marksQuality}',
-                                style: TextStyle(color: Color(0xFEFDD124))),
-                          ],
-                        ),
-                      ),
+                      buildDurationText(context, label: 'Duration: ', body: hikeOption.duration),
+                      buildDescriptionText(context, label: 'Description: ', body: HikeOptionWidgetHelper().convertToDescriptionWithMarks(hikeOption.shortDescription, hikeOption.allMarkImages)),
+                      buildMarksText(context, label: 'Marks: ', body: MarkImagesHelper().convertImagesToWidgetSpans(hikeOption.markImages)),
+                      buildMarksQualityText(context, label: 'Marks quality: ', body: hikeOption.marksQuality),
                     ])),
           ],
         ));
   }
+
+  RichText buildHikeOptionTitleText(BuildContext context, {int optionNumber, String optionName}) {
+    return RichText(
+        text: TextSpan(
+              text: '$optionNumber: $optionName',
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFEFDD124))),
+            );
+  }
+
+  RichText buildDurationText(BuildContext context, {String label, String body}) {
+    return RichText(
+        text: TextSpan(
+            style: DefaultTextStyle.of(context).style,
+            children: <TextSpan>[
+              buildLabel(label),
+              TextSpan(
+                  text: body,
+                  style: TextStyle(color: Color(0xFFE0E2DB))),
+            ]));
+  }
+
+  RichText buildDescriptionText(BuildContext context, {String label, Future<List<InlineSpan>> body}) {
+    return RichText(
+      text: TextSpan(
+        style: DefaultTextStyle.of(context).style,
+        children: <InlineSpan>[
+          buildLabel(label),
+          WidgetSpan(
+              child: FutureBuilder<dynamic>(
+                  future: body,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError)
+                      print(snapshot.error);
+
+                    return snapshot.hasData
+                        ? RichText(text: TextSpan(
+                      children: snapshot.data,
+                      style: TextStyle(color: Color(0xFFE0E2DB)),))
+                        : Center(child: CircularProgressIndicator());
+                  })
+          ),
+        ],
+      ),
+    );
+  }
+
+  RichText buildMarksText(BuildContext context, {String label, List<InlineSpan> body}) {
+    return RichText(
+        text: TextSpan(
+            style: DefaultTextStyle.of(context).style,
+            children: [
+              buildLabel(label),
+              TextSpan(
+                children: body,
+              ),
+            ]));
+  }
+
+  RichText buildMarksQualityText(BuildContext context, {String label, String body}) {
+    return RichText(
+        text: TextSpan(
+          style: DefaultTextStyle.of(context).style,
+          children: <TextSpan>[
+            buildLabel(label),
+            TextSpan(
+                text: body,
+                style: TextStyle(color: Color(0xFEFDD124))),
+          ],
+        ),
+      );
+  }
+
+  TextSpan buildLabel(String label) {
+    return TextSpan(
+      text: label,
+      style: TextStyle(
+          fontWeight: FontWeight.bold,
+          color: Color(0xFEFDD124)));
+  }
+
 }
