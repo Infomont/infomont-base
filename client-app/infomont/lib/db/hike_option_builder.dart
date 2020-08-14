@@ -23,8 +23,7 @@ class HikeOptionBuilder {
     processPortionDetails(currentTrackPortionDetails);
 
     HikeOption hikeOption = HikeOption(markStates: notDuplicatedMarkStates);
-    hikeOption.optionName = currentTrackPortionDetails[0].startPointName
-        + ' - ' + currentTrackPortionDetails[currentTrackPortionDetails.length - 1].destinationPointName;
+    hikeOption.optionName = formatOptionName(currentTrackPortionDetails);
     hikeOption.optionNumber = optionNumber;
     hikeOption.duration = 0;
     hikeOption.shortDescription = getDescription(currentTrackPortionDetails);
@@ -33,6 +32,11 @@ class HikeOptionBuilder {
     hikeOption.markImages = notDuplicatedMarksImages;
     hikeOption.allMarkImages = markImageProvider.getAllMarkImages();
     return hikeOption;
+  }
+
+  String formatOptionName(List<PortionDetail> currentTrackPortionDetails) {
+    return currentTrackPortionDetails[0].startPointName
+      + ' - ' + currentTrackPortionDetails[currentTrackPortionDetails.length - 1].destinationPointName;
   }
 
   void processPortionDetails(List<PortionDetail> currentTrackPortionDetails) {
