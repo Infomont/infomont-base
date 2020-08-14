@@ -1,12 +1,10 @@
 import 'package:app/db/abstract_db_provider.dart';
-import 'package:app/db/db_provider.dart';
 import 'package:app/db/hike_option_builder.dart';
 import 'package:app/db/hike_option_provider.dart';
 import 'package:app/entities/hike_option.dart';
-import 'package:app/entities/infomont_image.dart';
 import 'package:app/entities/portion_detail.dart';
 
-class HikeOptionDbProvider extends HikeOptionProvider { // TODO: Cleanup next!
+class HikeOptionDbProvider extends HikeOptionProvider {
   final IDBProvider dbProvider;
 
   HikeOptionDbProvider(this.dbProvider);

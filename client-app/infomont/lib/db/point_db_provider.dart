@@ -1,8 +1,6 @@
 
 import 'package:app/db/abstract_db_provider.dart';
-import 'package:app/db/db_provider.dart';
 import 'package:app/entities/point.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 class PointDbProvider{
   final IDBProvider dbProvider;
