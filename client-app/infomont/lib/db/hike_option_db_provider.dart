@@ -35,24 +35,10 @@ class HikeOptionDbProvider extends HikeOptionProvider { // TODO: Cleanup next!
       optionNumber++;
       var currentTrackPortionDetails = entry.value;
 
-      int durationSum = 0;
-      var notDuplicatedMarks = new Set<String>();
-      var notDuplicatedMarksImages = new Set<InfomontImage>();
-      var notDuplicatedMarkStates = new Set<String>();
-      for (var portionDetail in currentTrackPortionDetails) {
-        durationSum += portionDetail.duration;
-        notDuplicatedMarks.add(portionDetail.mark);
-        notDuplicatedMarksImages.add(portionDetail.markImage);
-        notDuplicatedMarkStates.add(portionDetail.markState);
-      }
-
       HikeOption hikeOption = HikeOptionBuilder(dbProvider).buildHikeOption(
           currentTrackPortionDetails,
-          optionNumber,
-          durationSum,
-          notDuplicatedMarks,
-          notDuplicatedMarksImages,
-          notDuplicatedMarkStates);
+          optionNumber
+      );
       hikeOptions.add(hikeOption);
     }
 
