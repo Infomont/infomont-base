@@ -9,22 +9,18 @@ class HikeOptionBuilder {
   final IDBProvider dbProvider;
   final MarkImageDbProvider markImageProvider;
 
+  var durationSum = 0;
+  var notDuplicatedMarks = new Set<String>();
+  var notDuplicatedMarksImages = new Set<InfomontImage>();
+  var notDuplicatedMarkStates = new Set<String>();
+
   HikeOptionBuilder(this.dbProvider) : markImageProvider = MarkImageDbProvider(dbProvider);
 
   HikeOption buildHikeOption(
       List<PortionDetail> currentTrackPortionDetails,
       int optionNumber) {
 
-    int durationSum = 0;
-    var notDuplicatedMarks = new Set<String>();
-    var notDuplicatedMarksImages = new Set<InfomontImage>();
-    var notDuplicatedMarkStates = new Set<String>();
-    for (var portionDetail in currentTrackPortionDetails) {
-      durationSum += portionDetail.duration;
-      notDuplicatedMarks.add(portionDetail.mark);
-      notDuplicatedMarksImages.add(portionDetail.markImage);
-      notDuplicatedMarkStates.add(portionDetail.markState);
-    }
+    processPortionDetails(currentTrackPortionDetails);
 
     HikeOption hikeOption = HikeOption(markStates: notDuplicatedMarkStates);
     hikeOption.optionName = currentTrackPortionDetails[0].startPointName
@@ -37,6 +33,15 @@ class HikeOptionBuilder {
     hikeOption.markImages = notDuplicatedMarksImages;
     hikeOption.allMarkImages = markImageProvider.getAllMarkImages();
     return hikeOption;
+  }
+
+  void processPortionDetails(List<PortionDetail> currentTrackPortionDetails) {
+    for (var portionDetail in currentTrackPortionDetails) {
+      durationSum += portionDetail.duration;
+      notDuplicatedMarks.add(portionDetail.mark);
+      notDuplicatedMarksImages.add(portionDetail.markImage);
+      notDuplicatedMarkStates.add(portionDetail.markState);
+    }
   }
 
   static String getTimeString(int value) {
