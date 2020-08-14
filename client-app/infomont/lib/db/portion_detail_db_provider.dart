@@ -52,6 +52,4 @@ class PortionDetailDbProvider{
         ? result.map((o) => PortionDetail.fromDatabase(o)).toList()
         : [];
   }
-
-
 }

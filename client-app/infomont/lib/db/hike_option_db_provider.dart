@@ -18,7 +18,8 @@ class HikeOptionDbProvider extends HikeOptionProvider {
 
     var portionDetailsByTrackId = new Map<int, List<PortionDetail>>();
 
-    if (portionDetails.length == 0) return hikeOptions;
+    if (portionDetails.length == 0)
+      return hikeOptions;
 
     for (var portionDetail in portionDetails) {
       if (!portionDetailsByTrackId.containsKey(portionDetail.cacheTrekId)) {
