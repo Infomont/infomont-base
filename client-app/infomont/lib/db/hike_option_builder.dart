@@ -7,8 +7,9 @@ import 'package:app/entities/portion_detail.dart';
 
 class HikeOptionBuilder {
   final IDBProvider dbProvider;
+  final MarkImageDbProvider markImageProvider;
 
-  HikeOptionBuilder(this.dbProvider);
+  HikeOptionBuilder(this.dbProvider) : markImageProvider = MarkImageDbProvider(dbProvider);
 
   HikeOption buildHikeOption(List<PortionDetail> currentTrackPortionDetails, int optionNumber, int durationSum, Set<String> notDuplicatedMarks, Set<InfomontImage> notDuplicatedMarksImages, Set<String> notDuplicatedMarkStates) {
     HikeOption hikeOption = new HikeOption();
@@ -21,7 +22,7 @@ class HikeOptionBuilder {
     hikeOption.marks = notDuplicatedMarks.join(', ');
     hikeOption.markImages = notDuplicatedMarksImages;
     hikeOption.marksQuality = notDuplicatedMarkStates.join(', ');
-    hikeOption.allMarkImages = MarkImageDbProvider(dbProvider).getAllMarkImages();
+    hikeOption.allMarkImages = markImageProvider.getAllMarkImages();
     return hikeOption;
   }
 
@@ -37,6 +38,4 @@ class HikeOptionBuilder {
     }
     return currentTrackPortionDetails[0].englishDescription;
   }
-
-
 }
