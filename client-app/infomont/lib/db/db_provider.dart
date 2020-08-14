@@ -2,16 +2,12 @@ import 'dart:io';
 import 'dart:developer' as developer;
 import 'dart:typed_data';
 
-import 'package:app/entities/infomont_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-import '../entities/hike_option.dart';
-import '../entities/portion_detail.dart';
-import '../entities/point.dart';
-import 'abstract_db_provider.dart';
+import 'package:app/db/abstract_db_provider.dart';
 
 class DBProvider implements IDBProvider {
   DBProvider();
