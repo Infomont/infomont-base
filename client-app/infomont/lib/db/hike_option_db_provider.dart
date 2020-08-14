@@ -1,5 +1,6 @@
 import 'package:app/db/abstract_db_provider.dart';
 import 'package:app/db/db_provider.dart';
+import 'package:app/db/hike_option_builder.dart';
 import 'package:app/db/hike_option_provider.dart';
 import 'package:app/entities/hike_option.dart';
 import 'package:app/entities/infomont_image.dart';
@@ -45,24 +46,13 @@ class HikeOptionDbProvider extends HikeOptionProvider { // TODO: Cleanup next!
             .add(formatMarksQuality(portionDetail.markState));
       }
 
-      HikeOption hikeOption = new HikeOption();
-      hikeOption.optionName = currentTrackPortionDetails[0].startPointName +
-          ' - ' +
-          currentTrackPortionDetails[currentTrackPortionDetails.length - 1]
-              .destinationPointName;
-      hikeOption.optionNumber = optionNumber;
-      hikeOption.duration = 0;
-      hikeOption.shortDescription = getDescription(currentTrackPortionDetails);
-      hikeOption.duration = getTimeString(durationSum);
-      hikeOption.marks = notDuplicatedMarks.join(', ');
-      hikeOption.markImages = notDuplicatedMarksImages;
-      hikeOption.marksQuality = notDuplicatedMarkStates.join(', ');
-      hikeOption.allMarkImages = getAllMarkImages();
+      HikeOption hikeOption = HikeOptionBuilder(dbProvider).buildHikeOption(currentTrackPortionDetails, optionNumber, durationSum, notDuplicatedMarks, notDuplicatedMarksImages, notDuplicatedMarkStates);
       hikeOptions.add(hikeOption);
     }
 
     return hikeOptions;
   }
+
 
   // CAREFUL: Duplicated code with hike_option.dart
   static String formatMarksQuality(var marksQuality) {
@@ -79,12 +69,6 @@ class HikeOptionDbProvider extends HikeOptionProvider { // TODO: Cleanup next!
         return '☆☆☆☆☆';
     }
     return marksQuality;
-  }
-
-  String getTimeString(int value) {
-    final int hour = value ~/ 60;
-    final int minutes = value % 60;
-    return '${hour.toString()} hours ${minutes.toString().padLeft(2, "0")} minutes';
   }
 
   Future<List<PortionDetail>> getPortionDetails(
@@ -130,29 +114,6 @@ class HikeOptionDbProvider extends HikeOptionProvider { // TODO: Cleanup next!
 
     return result.isNotEmpty
         ? result.map((o) => PortionDetail.fromDatabase(o)).toList()
-        : [];
-  }
-
-  String getDescription(List<PortionDetail> currentTrackPortionDetails) {
-    if(currentTrackPortionDetails[0].englishDescription == null) { // return english description if there is any
-      return  currentTrackPortionDetails[0].description;
-    }
-    return currentTrackPortionDetails[0].englishDescription;
-  }
-
-  Future<List<InfomontImage>> getAllMarkImages() async{
-    final db = await dbProvider.database;
-
-    final queryString = '''
-    Select MarkCode as id, Image  
-    From MarkImages''';
-
-    var result = await db.rawQuery(queryString);
-
-    if (result.isEmpty) return [];
-
-    return result.isNotEmpty
-        ? result.map((o) => InfomontImage.fromDatabase(o)).toList()
         : [];
   }
 }

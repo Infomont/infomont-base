@@ -41,15 +41,15 @@ class HikeOption {
   static String formatMarksQuality(var marksQuality) {
     switch (marksQuality) {
       case 'Inexistent':
-        return '*';
+        return '☆';
       case 'Foarte rar':
-        return '**';
+        return '☆☆';
       case 'Deteriorat':
-        return '***';
+        return '☆☆☆';
       case 'Bun':
-        return '****';
+        return '☆☆☆☆';
       case 'Foarte bun':
-        return '*****';
+        return '☆☆☆☆☆';
     }
     return marksQuality;
   }
