@@ -14,9 +14,16 @@ class DBProvider implements IDBProvider {
 
   Database _database;
 
-  Future<Database> get database async { // TODO: make sure to cache the Database, if it's not cached yet
-    WidgetsFlutterBinding
-        .ensureInitialized(); // TODO: figure out why do we need that? Maybe not required when running from inside a widget
+  Future<Database> get database async {
+    if (_database == null) {
+      _database = await initDatabase();
+    }
+
+    return _database;
+  }
+
+  Future initDatabase() async {
+    WidgetsFlutterBinding.ensureInitialized(); // TODO: figure out why do we need that? Maybe not required when running from inside a widget
 
     var databasesPath = await getDatabasesPath();
     var path = join(databasesPath, "infomont.db");
@@ -46,10 +53,10 @@ class DBProvider implements IDBProvider {
     }
 
     // open the database
-    _database = await openDatabase(path, readOnly: true);
+    print("Opening Database...");
+    var db = openDatabase(path, readOnly: true);
+    // developer.log(db.runtimeType.toString());
 
-    developer.log(_database.runtimeType.toString());
-
-    return _database;
+    return db;
   }
 }
